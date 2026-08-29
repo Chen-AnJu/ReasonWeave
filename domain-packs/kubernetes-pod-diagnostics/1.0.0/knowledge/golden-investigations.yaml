@@ -1,0 +1,13 @@
+investigations:
+  - id: pod-unschedulable
+    observations: [pod_unschedulable]
+    expected_top_hypothesis: scheduling_constraint
+  - id: image-pull-backoff
+    observations: [image_pull_backoff, image_pull_error]
+    expected_top_hypothesis: image_acquisition_failure
+  - id: configuration-mount
+    observations: [container_config_error, volume_mount_failed]
+    expected_top_hypothesis: configuration_or_mount_failure
+  - id: runtime-crash
+    observations: [crash_loop_backoff, container_exit_nonzero, restart_count]
+    expected_top_hypothesis: runtime_or_health_failure

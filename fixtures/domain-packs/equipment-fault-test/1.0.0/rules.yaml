@@ -1,0 +1,17 @@
+rules:
+  - id: equipment.temperature.high
+    version: "1"
+    hypothesis: overheating
+    predicate: temperature_high
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.0
+    required: true
+  - id: equipment.vibration.detected
+    version: "1"
+    hypothesis: mechanical_imbalance
+    predicate: vibration_level
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.0
+    required: true

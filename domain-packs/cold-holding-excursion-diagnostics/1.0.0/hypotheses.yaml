@@ -1,0 +1,13 @@
+hypotheses:
+  - code: power_or_control_interruption
+    title: 供电或控制中断
+    description: 停电、控制器离线或异常除霜使冷藏单元暂时失去有效制冷控制。
+  - code: refrigeration_equipment_response_failure
+    title: 制冷设备响应不足
+    description: 制冷命令存在，但压缩机、风机、盘管或其他部件未产生预期降温响应。
+  - code: operational_heat_load_or_airflow
+    title: 开门、装载或气流扰动
+    description: 长时间开门、较热物品装入或储藏气流受阻形成额外热负荷。
+  - code: measurement_system_issue
+    title: 测量系统异常
+    description: 传感器校准、时钟、数据连续性或安装位置使记录不能可靠代表实际温度状态。

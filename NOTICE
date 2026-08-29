@@ -1,0 +1,33 @@
+ReasonWeave
+
+The source code is distributed under the Apache License, Version 2.0. See the
+LICENSE file.
+
+The Kubernetes Pod Diagnostics Domain Pack includes modified, summarized
+material derived from Kubernetes documentation licensed under CC BY 4.0. Its
+rules were informed by the Apache-2.0 K8sGPT Pod Analyzer. Exact source URLs,
+revisions, modifications, scopes, and content hashes are recorded in:
+
+  domain-packs/kubernetes-pod-diagnostics/1.0.0/LICENSES.yaml
+  domain-packs/kubernetes-pod-diagnostics/1.0.0/NOTICE.md
+
+Kubernetes is a registered trademark of The Linux Foundation. Use of the name
+only identifies compatibility and subject matter; it does not imply endorsement
+or certification by the Kubernetes project or The Linux Foundation.
+
+The Cold Holding Excursion Diagnostics Domain Pack contains original shortened
+summaries of public-domain FDA and DOE government information. Exact source
+URLs, retrieval dates, and derived-content SHA-256 values are recorded in:
+
+  domain-packs/cold-holding-excursion-diagnostics/1.0.0/LICENSES.yaml
+  domain-packs/cold-holding-excursion-diagnostics/1.0.0/NOTICE.md
+
+The fixed cold-storage validation excerpt under `fixtures/cold-holding` is a
+small transformation of Zenodo record 15130001, licensed CC BY 4.0 and credited
+in its local README. No FDA, DOE, EPA, or dataset-author endorsement is implied.
+
+The standard Compose build compiles pgvector 0.8.6 from PostgreSQL-licensed
+source and compiles a patched Ollama 0.33.1 binary from MIT-licensed source.
+The exact upstream archives, checksums, and patched Go dependency versions are
+pinned in infra/postgres/Dockerfile and infra/ollama/Dockerfile. These locally
+built images are not endorsed by the upstream projects.

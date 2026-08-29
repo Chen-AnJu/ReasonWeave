@@ -1,0 +1,29 @@
+event_types:
+  kubernetes_pod_failure:
+    subject:
+      type: kubernetes_pod
+      identity_fields: [namespace, pod_name]
+      label_template: "{namespace}/{pod_name}"
+      attributes_schema:
+        type: object
+        required: [namespace, pod_name]
+        properties:
+          namespace: {type: string, minLength: 1, maxLength: 253}
+          pod_name: {type: string, minLength: 1, maxLength: 253}
+          uid: {type: string, minLength: 1, maxLength: 253}
+          anonymized: {type: boolean}
+        additionalProperties: false
+    evidence_inputs:
+      observation_bundle:
+        enabled: true
+      text:
+        enabled: true
+        source_profile: human_report
+        predicate: reported_symptom_text
+        verification_status: CONFIRMED
+      file:
+        enabled: true
+        source_profile: uploaded_file
+        content_types: [text/plain, application/json]
+      image:
+        enabled: false

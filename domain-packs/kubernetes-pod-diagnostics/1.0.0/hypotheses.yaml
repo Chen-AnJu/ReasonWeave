@@ -1,0 +1,13 @@
+hypotheses:
+  - code: scheduling_constraint
+    title: 调度约束或资源不足
+    description: Pod 因资源、亲和性、污点容忍或调度门控等条件无法分配到节点。
+  - code: image_acquisition_failure
+    title: 镜像获取失败
+    description: Kubelet 无法解析、认证或拉取容器镜像。
+  - code: configuration_or_mount_failure
+    title: 配置依赖或卷挂载失败
+    description: 容器启动所需配置、Secret 引用或 Volume 挂载条件未满足。
+  - code: runtime_or_health_failure
+    title: 容器运行时或健康检查失败
+    description: 容器启动后异常退出、内存不足、反复重启或未通过健康检查。

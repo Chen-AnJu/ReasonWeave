@@ -1,0 +1,49 @@
+format_version: "1.0"
+key: cold-holding-excursion-diagnostics
+version: 1.0.0
+name: Cold Holding Excursion Diagnostics
+description: Evidence-based operational diagnosis for cold-holding unit temperature excursions.
+engine: ">=0.4.1 <0.5.0"
+compatible_eventir: "0.1"
+event_types: [cold_holding_temperature_excursion]
+event_definitions: event-definitions.yaml
+fixture_only: false
+production_allowed: true
+capabilities:
+  observation_bundle: true
+  knowledge_retrieval: true
+  external_collector: true
+  image_vision: false
+  automatic_remediation: false
+vector_policy: required
+source_profiles:
+  calibrated_manual_probe:
+    label: Calibrated manual temperature probe
+    reliability: 0.95
+  equipment_controller:
+    label: Refrigeration equipment controller export
+    reliability: 0.90
+  fixed_temperature_logger:
+    label: Fixed temperature data logger
+    reliability: 0.85
+  maintenance_inspection:
+    label: Maintenance inspection record
+    reliability: 0.85
+  collector_derived:
+    label: Deterministic cross-source collector result
+    reliability: 0.80
+  operator_report:
+    label: Operator-reported condition
+    reliability: 0.65
+observation_bundle:
+  schema_version: observation-bundle/1.0
+knowledge:
+  required: true
+  metadata: knowledge/metadata.yaml
+  retrieval_config: retrieval-config.yaml
+  golden_queries: knowledge/golden-queries.yaml
+  golden_investigations: knowledge/golden-investigations.yaml
+hypotheses: hypotheses.yaml
+rules: rules.yaml
+next_evidence: next-evidence.yaml
+hypothesis_limit: 4

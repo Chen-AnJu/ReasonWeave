@@ -1,0 +1,59 @@
+locale: zh-CN
+name: Kubernetes Pod 故障诊断
+description: 面向 Pod 调度、镜像、配置、启动与健康故障的证据化诊断包。
+target_version_label: Kubernetes
+event_types:
+  kubernetes_pod_failure:
+    label: Kubernetes Pod 故障
+    subject_type: kubernetes_pod
+    subject_label: Pod（namespace/name）
+    fields:
+      namespace:
+        label: Namespace
+        control: text
+        placeholder: default
+      pod_name:
+        label: Pod 名称
+        control: text
+        placeholder: api-7d8f4c9b6-x2k9p
+    evidence_inputs:
+      observation_bundle:
+        label: 上传 Observation Bundle
+        help: 使用只读采集器生成标准 Bundle；导入后的观察默认待复核。
+        collector_command: rw-evidence kubernetes collect --namespace <namespace> --pod <pod> --out pod-observations.json
+      text:
+        label: 添加现象描述
+      file:
+        label: 上传普通证据文件
+hypotheses:
+  scheduling_constraint:
+    title: 调度约束或资源不足
+    description: Pod 无法满足调度条件或集群缺少可用资源。
+  image_acquisition_failure:
+    title: 镜像获取失败
+    description: 镜像名称、仓库访问、认证或拉取过程发生错误。
+  configuration_or_mount_failure:
+    title: 配置依赖或卷挂载失败
+    description: 容器依赖的配置引用或存储挂载尚未满足。
+  runtime_or_health_failure:
+    title: 容器运行时或健康检查失败
+    description: 容器异常退出、OOM、反复重启或探针失败。
+predicates:
+  pod_unschedulable: Pod 无法调度
+  pod_scheduling_gated: Pod 被调度门控阻塞
+  pod_evicted: Pod 已被驱逐
+  image_pull_backoff: 镜像拉取退避
+  image_pull_error: 镜像拉取失败
+  invalid_image_name: 镜像名称无效
+  container_config_error: 容器配置创建失败
+  volume_mount_failed: 卷挂载失败
+  crash_loop_backoff: 容器反复崩溃并退避
+  container_exit_nonzero: 容器非零退出
+  container_oom_killed: 容器因内存不足终止
+  readiness_probe_failed: 就绪探针失败
+  liveness_probe_failed: 存活探针失败
+  restart_count: 容器重启次数
+  reported_symptom_text: 人工报告的故障现象
+source_profiles:
+  kubernetes_api: Kubernetes API Pod 状态
+  kubernetes_event: Kubernetes Event（best-effort 补充信号）

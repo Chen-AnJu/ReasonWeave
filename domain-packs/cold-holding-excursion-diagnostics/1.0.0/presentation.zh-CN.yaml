@@ -1,0 +1,104 @@
+locale: zh-CN
+name: 冷藏温度异常诊断
+description: 面向冷藏单元的供电、设备响应、运行热负荷和测量系统异常调查。
+event_types:
+  cold_holding_temperature_excursion:
+    label: 冷藏温度异常
+    subject_type: cold_holding_unit
+    subject_label: 冷藏单元（场所/单元）
+    fields:
+      site_id:
+        label: 场所编号
+        control: text
+        placeholder: store-001
+      unit_id:
+        label: 冷藏单元编号
+        control: text
+        placeholder: walk-in-cooler-a
+      unit_type:
+        label: 冷藏单元类型
+        control: select
+        options:
+          - {value: walk_in_cooler, label: 步入式冷藏间}
+          - {value: commercial_refrigerator, label: 商用冰箱}
+          - {value: display_case, label: 冷藏展示柜}
+          - {value: cold_room, label: 冷库}
+          - {value: other, label: 其他}
+      temperature_limit_c:
+        label: 现场温度上限（°C）
+        control: number
+        placeholder: "5"
+      minimum_excursion_minutes:
+        label: 最短异常持续时间（分钟）
+        control: number
+        placeholder: "15"
+      maximum_sample_gap_minutes:
+        label: 最大允许采样缺口（分钟）
+        control: number
+        placeholder: "10"
+      sensor_tolerance_c:
+        label: 传感器允许差异（°C）
+        control: number
+        placeholder: "1"
+      policy_reference:
+        label: 现场阈值依据
+        control: text
+        placeholder: Site SOP CH-04
+    evidence_inputs:
+      observation_bundle:
+        label: 上传冷藏 Observation Bundle
+        help: 使用本地采集器汇总遥测；原始行不会进入 Bundle，导入后的观察默认待复核。
+        collector_command: rw-evidence cold-holding collect --event-ir event-ir.json --sources sources.json --telemetry telemetry.csv --out cold-holding-bundle.json
+      text:
+        label: 添加现场现象说明
+      file:
+        label: 上传只读运行记录
+hypotheses:
+  power_or_control_interruption:
+    title: 供电或控制中断
+    description: 停电、控制器离线或异常除霜影响有效制冷控制。
+  refrigeration_equipment_response_failure:
+    title: 制冷设备响应不足
+    description: 制冷命令存在，但设备没有形成预期降温响应。
+  operational_heat_load_or_airflow:
+    title: 开门、装载或气流扰动
+    description: 运行操作形成额外热负荷或妨碍冷空气循环。
+  measurement_system_issue:
+    title: 测量系统异常
+    description: 校准、时钟、连续性或安装位置降低了温度记录可信度。
+predicates:
+  temperature_excursion_detected: 已检测到持续温度异常
+  observed_peak_temperature_c: 观察到的峰值温度
+  observed_excursion_duration_minutes: 观察到的异常持续时间
+  observed_recovery_drop_c: 观察到的恢复降温幅度
+  observed_max_sensor_disagreement_c: 最大传感器差异
+  telemetry_sample_count: 遥测样本数
+  power_or_control_interruption_detected: 已检测到供电或控制中断
+  power_interruption_overlaps_excursion: 停电与异常时间重叠
+  controller_offline_overlaps_excursion: 控制器离线与异常时间重叠
+  abnormal_defrost_overlaps_excursion: 异常除霜与异常时间重叠
+  power_stable_through_excursion: 异常期间供电稳定
+  refrigeration_response_failure_detected: 已检测到制冷响应不足
+  compressor_or_fan_alarm_present: 压缩机或风机报警
+  cooling_command_without_recovery: 制冷命令存在但温度未恢复
+  coil_or_airflow_component_fault_observed: 盘管、风机或制冷部件异常
+  normal_recovery_after_door_close: 关门后温度正常恢复
+  operational_heat_load_detected: 已检测到运行热负荷
+  prolonged_door_open_overlaps_excursion: 长时间开门与异常重叠
+  warm_load_introduced_before_excursion: 异常前有较热物品装入
+  storage_airflow_obstructed: 储藏空间气流受阻
+  door_closed_and_no_load_change: 门状态完整且无装载变化
+  measurement_system_anomaly_detected: 已检测到测量系统异常
+  reference_probe_disagrees: 固定记录器与参考探头不一致
+  sensor_calibration_invalid_or_expired: 传感器校准无效或已过期
+  single_sensor_spike_without_peer_confirmation: 单传感器尖峰未获确认
+  telemetry_gap_or_clock_anomaly: 遥测缺口或时钟异常
+  independent_product_probe_confirms_excursion: 独立产品探头确认异常
+  reported_cold_holding_symptom: 人工报告的冷藏温度异常现象
+source_profiles:
+  calibrated_manual_probe: 已校准人工探头
+  equipment_controller: 设备控制器导出
+  fixed_temperature_logger: 固定温度记录器
+  maintenance_inspection: 维护检查记录
+  collector_derived: 本地采集器派生事实
+  operator_report: 操作人员报告

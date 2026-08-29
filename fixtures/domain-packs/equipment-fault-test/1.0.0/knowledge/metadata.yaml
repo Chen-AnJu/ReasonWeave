@@ -1,0 +1,29 @@
+fixture_only: true
+production_allowed: false
+author: ReasonWeave contributors
+licenses: [Apache-2.0]
+documents:
+  - id: equipment-temperature-fixture
+    path: temperature.md
+    language: zh-CN
+    source_title: Synthetic equipment temperature fixture
+    source_url: https://reasonweave.dev/fixtures/equipment-fault-test
+    source_revision: 1.0.0
+    source_license: Apache-2.0
+    modified: false
+    applicability:
+      event_types: [equipment_fault]
+      context_predicates: [temperature_high]
+    expected_predicates: [temperature_high]
+  - id: equipment-vibration-fixture
+    path: vibration.md
+    language: zh-CN
+    source_title: Synthetic equipment vibration fixture
+    source_url: https://reasonweave.dev/fixtures/equipment-fault-test
+    source_revision: 1.0.0
+    source_license: Apache-2.0
+    modified: false
+    applicability:
+      event_types: [equipment_fault]
+      context_predicates: [vibration_level]
+    expected_predicates: [vibration_level]

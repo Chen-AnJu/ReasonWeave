@@ -1,0 +1,6 @@
+components:
+  - scope: all
+    license: Apache-2.0
+    source: https://reasonweave.dev/fixtures/equipment-fault-test
+    revision: 1.0.0
+    modified: false

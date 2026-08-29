@@ -1,0 +1,39 @@
+components:
+  - scope: pack-rules-metadata-and-presentation
+    license: Apache-2.0
+    source: project-root/LICENSE
+    revision: reasonweave-0.4.1
+    modified: true
+  - scope: food-code-and-measurement-knowledge
+    license: LicenseRef-US-Public-Domain
+    source: https://www.fda.gov/media/184685/download
+    revision: FDA-FoodCode2022-2023-01-18
+    retrieved_at: 2026-08-29
+    modified: true
+    derived_content_sha256:
+      knowledge/measurement-and-excursion-verification.md: b3f0ba25f82ae70bb429ca6df0c3ccb9f7f7e53b38652ce7ae2fe22d04a64557
+      knowledge/equipment-versus-process.md: 3dbd337f2d620cadb5cfd089684911b30ffe05add0f908e87b9a65eaa8af6dd3
+  - scope: monitoring-and-calibration-knowledge
+    license: LicenseRef-US-Public-Domain
+    source: https://www.fda.gov/food/hazard-analysis-critical-control-point-haccp/haccp-principles-application-guidelines
+    revision: retrieved-2026-08-29
+    retrieved_at: 2026-08-29
+    modified: true
+    derived_content_sha256:
+      knowledge/monitoring-calibration-and-records.md: ff11c8152b79eefccb9278d1fab7dba13ebcb344f1e8fe3349ac7f089b04cec4
+  - scope: power-interruption-knowledge
+    license: LicenseRef-US-Public-Domain
+    source: https://www.fda.gov/food/buy-store-serve-safe-food/food-and-water-safety-during-power-outages-and-floods
+    revision: retrieved-2026-08-29
+    retrieved_at: 2026-08-29
+    modified: true
+    derived_content_sha256:
+      knowledge/power-interruption-evidence.md: 675ee33c0deb824d244a6bb719a8c1cfe973af55ee6fdcb63b6ee1488de8f7e0
+  - scope: door-seal-and-airflow-knowledge
+    license: LicenseRef-US-Public-Domain
+    source: https://www1.eere.energy.gov/buildings/appliance_standards/pdfs/wicf_nopr_tsd_2.pdf
+    revision: DOE-EERE-2013-WICF-NOPR-TSD
+    retrieved_at: 2026-08-29
+    modified: true
+    derived_content_sha256:
+      knowledge/door-seals-airflow-and-maintenance.md: 52097e26beb894030d5c7b0c5e6ef52ace6c66909d3a8c3e3d66172b08ff6de7

@@ -1,0 +1,18 @@
+event_types:
+  equipment_fault:
+    subject:
+      type: equipment_asset
+      identity_fields: [asset_id]
+      label_template: "{asset_id}"
+      attributes_schema:
+        type: object
+        required: [asset_id]
+        properties:
+          asset_id: {type: string, minLength: 1, maxLength: 80}
+          site: {type: string, maxLength: 120}
+        additionalProperties: false
+    evidence_inputs:
+      observation_bundle: {enabled: true}
+      text: {enabled: true, source_profile: human_report, predicate: reported_issue, verification_status: PENDING}
+      file: {enabled: true, source_profile: uploaded_file, content_types: [text/plain, application/json]}
+      image: {enabled: false}

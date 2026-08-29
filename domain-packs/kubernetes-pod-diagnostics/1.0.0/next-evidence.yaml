@@ -1,0 +1,29 @@
+recommendations:
+  - id: inspect_pod_scheduling_conditions
+    title: 查看 Pod 调度条件和相关事件
+    command_hint: kubectl describe pod <pod> -n <namespace>
+    discriminates: [scheduling_constraint, configuration_or_mount_failure]
+    expected_predicate: pod_unschedulable
+    estimated_impact: high
+    acquisition_cost: low
+  - id: inspect_container_waiting_reason
+    title: 查看容器等待原因和镜像状态
+    command_hint: kubectl get pod <pod> -n <namespace> -o json
+    discriminates: [image_acquisition_failure, configuration_or_mount_failure]
+    expected_predicate: image_pull_error
+    estimated_impact: high
+    acquisition_cost: low
+  - id: inspect_volume_events
+    title: 查看配置引用与卷挂载事件
+    command_hint: kubectl describe pod <pod> -n <namespace>
+    discriminates: [configuration_or_mount_failure, runtime_or_health_failure]
+    expected_predicate: volume_mount_failed
+    estimated_impact: high
+    acquisition_cost: low
+  - id: inspect_previous_container_logs
+    title: 获取上一次容器实例日志
+    command_hint: kubectl logs <pod> -n <namespace> -c <container> --previous --tail=200
+    discriminates: [runtime_or_health_failure, configuration_or_mount_failure]
+    expected_predicate: container_exit_nonzero
+    estimated_impact: high
+    acquisition_cost: medium

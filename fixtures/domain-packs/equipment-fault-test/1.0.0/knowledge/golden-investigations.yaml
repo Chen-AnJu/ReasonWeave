@@ -1,0 +1,7 @@
+investigations:
+  - id: equipment-overheating
+    observations: [temperature_high]
+    expected_top_hypothesis: overheating
+  - id: equipment-imbalance
+    observations: [vibration_level]
+    expected_top_hypothesis: mechanical_imbalance

@@ -1,0 +1,47 @@
+format_version: "1.0"
+key: kubernetes-pod-diagnostics
+version: 1.0.0
+name: Kubernetes Pod Diagnostics
+description: Evidence-based diagnosis for Kubernetes Pod scheduling, image, configuration, startup, and health failures.
+engine: ">=0.4.1 <0.5.0"
+compatible_eventir: "0.1"
+event_types: [kubernetes_pod_failure]
+event_definitions: event-definitions.yaml
+fixture_only: false
+production_allowed: true
+capabilities:
+  observation_bundle: true
+  knowledge_retrieval: true
+  external_collector: true
+  image_vision: false
+  automatic_remediation: false
+vector_policy: required
+supported_target_versions:
+  scheme: semver
+  minimum: 1.35.0
+  maximum_exclusive: 1.38.0
+source_profiles:
+  human_report:
+    label: Human-reported symptom
+    reliability: 0.75
+  uploaded_file:
+    label: Locally uploaded file
+    reliability: 0.80
+  kubernetes_api:
+    label: Kubernetes API Pod status
+    reliability: 0.95
+  kubernetes_event:
+    label: Kubernetes Event (best-effort supplemental signal)
+    reliability: 0.65
+observation_bundle:
+  schema_version: observation-bundle/1.0
+knowledge:
+  required: true
+  metadata: knowledge/metadata.yaml
+  retrieval_config: retrieval-config.yaml
+  golden_queries: knowledge/golden-queries.yaml
+  golden_investigations: knowledge/golden-investigations.yaml
+hypotheses: hypotheses.yaml
+rules: rules.yaml
+next_evidence: next-evidence.yaml
+hypothesis_limit: 4

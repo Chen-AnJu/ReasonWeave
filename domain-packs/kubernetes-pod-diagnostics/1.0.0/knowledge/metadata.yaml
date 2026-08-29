@@ -1,0 +1,66 @@
+fixture_only: false
+production_allowed: true
+author: ReasonWeave contributors
+licenses: [CC-BY-4.0, Apache-2.0]
+license_note: Modified summaries of Kubernetes documentation and adapted diagnostic categories from K8sGPT; see NOTICE.md and LICENSES.yaml.
+documents:
+  - id: kubernetes-pod-lifecycle
+    path: pod-lifecycle-and-crashes.md
+    language: zh-CN
+    source_title: Pod Lifecycle
+    source_url: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/
+    source_revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    source_license: CC-BY-4.0
+    modified: true
+    applicability:
+      event_types: [kubernetes_pod_failure]
+      context_predicates: [crash_loop_backoff, container_exit_nonzero, container_oom_killed, restart_count]
+    expected_predicates: [crash_loop_backoff, container_exit_nonzero, container_oom_killed, restart_count]
+  - id: kubernetes-images
+    path: image-acquisition.md
+    language: zh-CN
+    source_title: Images
+    source_url: https://kubernetes.io/docs/concepts/containers/images/
+    source_revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    source_license: CC-BY-4.0
+    modified: true
+    applicability:
+      event_types: [kubernetes_pod_failure]
+      context_predicates: [image_pull_backoff, image_pull_error, invalid_image_name]
+    expected_predicates: [image_pull_backoff, image_pull_error, invalid_image_name]
+  - id: kubernetes-scheduling-debug
+    path: scheduling-and-configuration.md
+    language: zh-CN
+    source_title: Debug Running Pods
+    source_url: https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/
+    source_revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    source_license: CC-BY-4.0
+    modified: true
+    applicability:
+      event_types: [kubernetes_pod_failure]
+      context_predicates: [pod_unschedulable, pod_scheduling_gated, pod_evicted, container_config_error, volume_mount_failed]
+    expected_predicates: [pod_unschedulable, pod_scheduling_gated, pod_evicted, container_config_error, volume_mount_failed]
+  - id: kubernetes-resources
+    path: resources-and-oom.md
+    language: zh-CN
+    source_title: Resource Management for Pods and Containers
+    source_url: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+    source_revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    source_license: CC-BY-4.0
+    modified: true
+    applicability:
+      event_types: [kubernetes_pod_failure]
+      context_predicates: [pod_unschedulable, pod_evicted, container_oom_killed]
+    expected_predicates: [pod_unschedulable, pod_evicted, container_oom_killed]
+  - id: kubernetes-probes
+    path: health-probes.md
+    language: zh-CN
+    source_title: Liveness, Readiness, and Startup Probes
+    source_url: https://kubernetes.io/docs/concepts/workloads/pods/probes/
+    source_revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    source_license: CC-BY-4.0
+    modified: true
+    applicability:
+      event_types: [kubernetes_pod_failure]
+      context_predicates: [readiness_probe_failed, liveness_probe_failed, crash_loop_backoff]
+    expected_predicates: [readiness_probe_failed, liveness_probe_failed, crash_loop_backoff]

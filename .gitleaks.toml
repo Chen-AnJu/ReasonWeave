@@ -1,0 +1,4 @@
+title = "ReasonWeave secret scanning"
+
+[extend]
+useDefault = true

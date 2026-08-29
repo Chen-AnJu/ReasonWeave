@@ -1,0 +1,16 @@
+queries:
+  - id: independent-probe-verification-zh
+    query: 固定温度记录器与已校准参考探头不一致，如何确认测量异常
+    expected_document_ids: [cold-holding-measurement-verification, cold-holding-monitoring-records]
+  - id: independent-probe-verification-en
+    query: fixed data logger disagrees with calibrated reference probe during cold holding excursion
+    expected_document_ids: [cold-holding-measurement-verification, cold-holding-monitoring-records]
+  - id: power-outage-overlap
+    query: 冷藏温度升高与停电和控制器离线时间重叠
+    expected_document_ids: [cold-holding-power-interruption]
+  - id: door-open-heat-load
+    query: prolonged door opening warm load airflow obstruction cold room temperature rise
+    expected_document_ids: [cold-holding-door-airflow-maintenance, cold-holding-equipment-process]
+  - id: cooling-command-no-recovery
+    query: 压缩机持续运行但温度没有恢复，需要区分设备故障和操作热负荷
+    expected_document_ids: [cold-holding-equipment-process, cold-holding-door-airflow-maintenance]

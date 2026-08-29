@@ -1,0 +1,33 @@
+{
+  "name": "@reasonweave/evidence-cli",
+  "version": "0.4.1",
+  "description": "Create privacy-bounded Observation Bundles for ReasonWeave domain packs.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "src/**/*.mjs",
+    "README.md"
+  ],
+  "bin": {
+    "rw-evidence": "src/cli.mjs"
+  },
+  "scripts": {
+    "start": "node src/cli.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "csv-parse": "^6.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "reasonweave",
+    "kubernetes",
+    "cold-holding",
+    "evidence-collector"
+  ]
+}

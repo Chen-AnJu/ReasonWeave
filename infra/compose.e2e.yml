@@ -1,0 +1,105 @@
+name: reasonweave-e2e
+
+services:
+  postgres-e2e:
+    image: ${RW_POSTGRES_IMAGE:-reasonweave-postgres:0.4.1}
+    build:
+      context: ..
+      dockerfile: infra/postgres/Dockerfile
+    environment:
+      POSTGRES_DB: reasonweave_e2e
+      POSTGRES_USER: reasonweave
+      POSTGRES_PASSWORD: reasonweave_e2e_only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reasonweave -d reasonweave_e2e"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    tmpfs:
+      - /var/lib/postgresql/data:uid=70,gid=70,mode=0700
+    mem_limit: 768m
+    networks: [reasonweave-e2e]
+
+  ollama-e2e:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
+    build:
+      context: ..
+      dockerfile: infra/ollama/Dockerfile
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_KEEP_ALIVE: 10m
+      OLLAMA_NUM_PARALLEL: "1"
+    volumes:
+      - reasonweave-e2e-ollama:/home/ollama/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    mem_limit: 2g
+    networks: [reasonweave-e2e]
+
+  ollama-model-e2e:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
+    build:
+      context: ..
+      dockerfile: infra/ollama/Dockerfile
+    restart: "no"
+    environment:
+      OLLAMA_HOST: http://ollama-e2e:11434
+    entrypoint: ["reasonweave-ensure-model"]
+    command: ["${RW_EMBEDDING_MODEL:-qwen3-embedding:0.6b}"]
+    depends_on:
+      ollama-e2e:
+        condition: service_healthy
+    networks: [reasonweave-e2e]
+
+  backend-e2e:
+    image: ${RW_E2E_BACKEND_IMAGE:-reasonweave-backend-e2e:local}
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.runtime
+      target: runtime
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-e2e:5432/reasonweave_e2e
+      SPRING_DATASOURCE_USERNAME: reasonweave
+      SPRING_DATASOURCE_PASSWORD: reasonweave_e2e_only
+      RW_VISION_PROVIDER: mock
+      RW_EMBEDDING_PROVIDER: ollama
+      RW_EMBEDDING_BASE_URL: http://ollama-e2e:11434
+      RW_EMBEDDING_PATH: /api/embed
+      RW_EMBEDDING_MODEL: ${RW_EMBEDDING_MODEL:-qwen3-embedding:0.6b}
+      RW_EMBEDDING_DIMENSION: "1024"
+      RW_EMBEDDING_MODEL_DIGEST: ${RW_EMBEDDING_MODEL_DIGEST:-ac6da0dfba84a81fdbfbaf330198c33cd77c4cdfc53e8bc50eb581914a15621d}
+      RW_SEED_FIXTURES: "false"
+      RW_BLOB_ROOT: /data/blob
+      RW_DOMAIN_PACK_ROOTS: /app/domain-packs
+      RW_FIXTURE_ROOT: /app/fixtures
+    volumes:
+      - ../domain-packs:/app/domain-packs:ro
+      - ../fixtures:/app/fixtures:ro
+      - ../contracts:/app/contracts:ro
+    tmpfs:
+      - /data/blob:uid=10001,gid=10001,mode=0770
+    ports:
+      - "127.0.0.1:${RW_E2E_BACKEND_PORT:-18081}:8080"
+    depends_on:
+      postgres-e2e:
+        condition: service_healthy
+      ollama-model-e2e:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/actuator/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+    mem_limit: 1280m
+    networks: [reasonweave-e2e]
+
+networks:
+  reasonweave-e2e:
+
+volumes:
+  reasonweave-e2e-ollama:
+    name: reasonweave-ollama-model-cache
+    external: true

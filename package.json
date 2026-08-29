@@ -1,0 +1,25 @@
+{
+  "name": "reasonweave",
+  "version": "0.4.1",
+  "license": "Apache-2.0",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "verify:open-source": "pwsh -NoProfile -File ./scripts/verify-open-source-readiness.ps1",
+    "clean:generated": "pwsh -NoProfile -File ./scripts/clean-generated.ps1",
+    "init": "node ./scripts/init-local-config.mjs",
+    "cli:test": "pnpm --dir tools/domain-pack-cli test && pnpm --dir tools/evidence-cli test",
+    "cli:pack": "pwsh -NoProfile -File ./scripts/package-cli.ps1",
+    "frontend:dev": "pnpm --dir frontend dev",
+    "frontend:check": "pnpm --dir frontend lint && pnpm --dir frontend typecheck",
+    "frontend:test": "pnpm --dir frontend test",
+    "frontend:e2e": "pnpm --dir frontend test:e2e",
+    "frontend:e2e:real": "pnpm --dir frontend test:e2e:real",
+    "frontend:build": "pnpm --dir frontend build",
+    "backend:test": "pwsh -NoProfile -File ./scripts/test-backend.ps1",
+    "api:contract:export": "pwsh -NoProfile -File ./scripts/export-openapi.ps1",
+    "api:types:check": "pwsh -NoProfile -File ./scripts/verify-openapi-types.ps1",
+    "rwpack": "node ./tools/domain-pack-cli/src/cli.mjs",
+    "rw-evidence": "node ./tools/evidence-cli/src/cli.mjs"
+  }
+}

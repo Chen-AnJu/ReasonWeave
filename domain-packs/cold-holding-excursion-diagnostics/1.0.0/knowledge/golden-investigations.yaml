@@ -1,0 +1,16 @@
+investigations:
+  - id: power-control-interruption
+    observations: [temperature_excursion_detected, power_or_control_interruption_detected, power_interruption_overlaps_excursion]
+    expected_top_hypothesis: power_or_control_interruption
+  - id: refrigeration-response-failure
+    observations: [temperature_excursion_detected, refrigeration_response_failure_detected, cooling_command_without_recovery, compressor_or_fan_alarm_present]
+    expected_top_hypothesis: refrigeration_equipment_response_failure
+  - id: operational-heat-load
+    observations: [temperature_excursion_detected, operational_heat_load_detected, prolonged_door_open_overlaps_excursion, warm_load_introduced_before_excursion]
+    expected_top_hypothesis: operational_heat_load_or_airflow
+  - id: measurement-system-issue
+    observations: [temperature_excursion_detected, measurement_system_anomaly_detected, reference_probe_disagrees, sensor_calibration_invalid_or_expired]
+    expected_top_hypothesis: measurement_system_issue
+  - id: excursion-without-cause-evidence
+    observations: [temperature_excursion_detected]
+    expected_outcome: EVIDENCE_INSUFFICIENT

@@ -1,0 +1,46 @@
+predicates:
+  pod_unschedulable:
+    label: Pod 无法调度
+    value_schema: {type: boolean}
+  pod_scheduling_gated:
+    label: Pod 被调度门控阻塞
+    value_schema: {type: boolean}
+  pod_evicted:
+    label: Pod 已被驱逐
+    value_schema: {type: boolean}
+  image_pull_backoff:
+    label: 镜像拉取退避
+    value_schema: {type: boolean}
+  image_pull_error:
+    label: 镜像拉取失败
+    value_schema: {type: boolean}
+  invalid_image_name:
+    label: 镜像名称无效
+    value_schema: {type: boolean}
+  container_config_error:
+    label: 容器配置创建失败
+    value_schema: {type: boolean}
+  volume_mount_failed:
+    label: 卷挂载失败
+    value_schema: {type: boolean}
+  crash_loop_backoff:
+    label: 容器反复崩溃并退避
+    value_schema: {type: boolean}
+  container_exit_nonzero:
+    label: 容器以非零状态退出
+    value_schema: {type: boolean}
+  container_oom_killed:
+    label: 容器因内存不足终止
+    value_schema: {type: boolean}
+  readiness_probe_failed:
+    label: 就绪探针失败
+    value_schema: {type: boolean}
+  liveness_probe_failed:
+    label: 存活探针失败
+    value_schema: {type: boolean}
+  restart_count:
+    label: 容器重启次数
+    value_schema: {type: integer, minimum: 0}
+  reported_symptom_text:
+    label: 人工报告的故障现象
+    value_schema: {type: string, minLength: 1, maxLength: 4000}

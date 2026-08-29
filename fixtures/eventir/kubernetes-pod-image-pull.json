@@ -1,0 +1,92 @@
+{
+  "schema_version": "eventir/0.1",
+  "event": {
+    "id": "evt_fixture_k8s_pod_001",
+    "type": "kubernetes_pod_failure",
+    "title": "Pod 镜像拉取失败",
+    "description": "自动化测试夹具：default/payment-api 的容器处于 ImagePullBackOff。",
+    "occurred_at": {
+      "start": "2026-08-28T08:00:00Z",
+      "end": "2026-08-28T08:05:00Z"
+    },
+    "domain_pack": "kubernetes-pod-diagnostics/1.0.0",
+    "reference_code": "EVT-K8S-FIXTURE-001"
+  },
+  "subjects": [
+    {
+      "id": "subj_fixture_k8s_001",
+      "type": "kubernetes_pod",
+      "label": "default/payment-api",
+      "attributes": {
+        "namespace": "default",
+        "pod_name": "payment-api"
+      }
+    }
+  ],
+  "claims": [],
+  "evidence": [
+    {
+      "id": "ev_fixture_k8s_status",
+      "type": "observation_bundle",
+      "source": "kubernetes_api",
+      "content_type": "application/vnd.reasonweave.observation-bundle+json",
+      "status": "VERIFIED",
+      "reliability": 0.95,
+      "captured_at": "2026-08-28T08:05:00Z",
+      "metadata": {
+        "fixture": true,
+        "target_version": "v1.37.0"
+      }
+    },
+    {
+      "id": "ev_fixture_k8s_event",
+      "type": "observation_bundle",
+      "source": "kubernetes_event",
+      "content_type": "application/vnd.reasonweave.observation-bundle+json",
+      "status": "VERIFIED",
+      "reliability": 0.65,
+      "captured_at": "2026-08-28T08:05:00Z",
+      "metadata": {
+        "fixture": true,
+        "best_effort": true
+      }
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs_fixture_image_pull_backoff",
+      "evidence_id": "ev_fixture_k8s_status",
+      "subject_id": "subj_fixture_k8s_001",
+      "predicate": "image_pull_backoff",
+      "value": true,
+      "model_confidence": 1.0,
+      "verification_status": "VERIFIED",
+      "provenance": {
+        "adapter": "observation-bundle/fixture",
+        "source_locator": {
+          "kind": "Pod",
+          "field": "status.containerStatuses.state.waiting.reason"
+        }
+      }
+    },
+    {
+      "id": "obs_fixture_image_pull_error",
+      "evidence_id": "ev_fixture_k8s_event",
+      "subject_id": "subj_fixture_k8s_001",
+      "predicate": "image_pull_error",
+      "value": true,
+      "model_confidence": 0.9,
+      "verification_status": "VERIFIED",
+      "provenance": {
+        "adapter": "observation-bundle/fixture",
+        "source_locator": {
+          "kind": "Event",
+          "reason": "Failed"
+        }
+      }
+    }
+  ],
+  "hypotheses": [],
+  "contradictions": [],
+  "unknowns": []
+}

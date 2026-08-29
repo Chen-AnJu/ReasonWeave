@@ -1,0 +1,36 @@
+recommendations:
+  - id: verify_power_and_controller_timeline
+    title: 核对供电、控制器和除霜时间线
+    command_hint: 导出同一时间窗内的供电、控制器在线状态和除霜记录。
+    discriminates: [power_or_control_interruption, refrigeration_equipment_response_failure]
+    expected_predicate: power_interruption_overlaps_excursion
+    estimated_impact: high
+    acquisition_cost: low
+  - id: take_independent_product_temperature
+    title: 使用已校准独立探头复测产品温度
+    command_hint: 记录探头编号、校准状态、测量位置和测量时间，不以环境空气温度代替产品温度。
+    discriminates: [measurement_system_issue, refrigeration_equipment_response_failure]
+    expected_predicate: independent_product_probe_confirms_excursion
+    estimated_impact: high
+    acquisition_cost: low
+  - id: inspect_refrigeration_response
+    title: 检查压缩机、风机、盘管和报警记录
+    command_hint: 只记录观察结果和维护单号；本系统不下发维修或制冷剂操作指令。
+    discriminates: [refrigeration_equipment_response_failure, power_or_control_interruption]
+    expected_predicate: coil_or_airflow_component_fault_observed
+    estimated_impact: high
+    acquisition_cost: medium
+  - id: review_door_load_and_airflow
+    title: 核对开门、装载与储藏气流情况
+    command_hint: 对齐门状态、装载时间、货物温度和送回风通道检查记录。
+    discriminates: [operational_heat_load_or_airflow, refrigeration_equipment_response_failure]
+    expected_predicate: prolonged_door_open_overlaps_excursion
+    estimated_impact: high
+    acquisition_cost: low
+  - id: verify_logger_calibration_and_clock
+    title: 核对记录器校准、时钟和安装位置
+    command_hint: 比较参考探头，检查校准有效期、时钟偏移和传感器是否被移动。
+    discriminates: [measurement_system_issue, operational_heat_load_or_airflow]
+    expected_predicate: reference_probe_disagrees
+    estimated_impact: high
+    acquisition_cost: low

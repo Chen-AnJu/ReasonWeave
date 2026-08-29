@@ -1,0 +1,260 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "product": "ReasonWeave",
+  "version": "0.4.1",
+  "color": {
+    "canvas": {
+      "value": "#0B0F14",
+      "type": "color"
+    },
+    "sidebar": {
+      "value": "#0E141C",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#111821",
+      "type": "color"
+    },
+    "elevated": {
+      "value": "#17212B",
+      "type": "color"
+    },
+    "elevatedStrong": {
+      "value": "#1B2733",
+      "type": "color"
+    },
+    "border": {
+      "value": "#273241",
+      "type": "color"
+    },
+    "borderSubtle": {
+      "value": "#1D2732",
+      "type": "color"
+    },
+    "textPrimary": {
+      "value": "#F3F6F8",
+      "type": "color"
+    },
+    "textSecondary": {
+      "value": "#AAB6C5",
+      "type": "color"
+    },
+    "textMuted": {
+      "value": "#8290A3",
+      "type": "color"
+    },
+    "brand": {
+      "value": "#52E0C4",
+      "type": "color"
+    },
+    "information": {
+      "value": "#65A8FF",
+      "type": "color"
+    },
+    "success": {
+      "value": "#4DD4A4",
+      "type": "color"
+    },
+    "warning": {
+      "value": "#F3B65A",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#FF6B7A",
+      "type": "color"
+    },
+    "hypothesis": {
+      "value": "#A78BFA",
+      "type": "color"
+    },
+    "knowledge": {
+      "value": "#D6A7FF",
+      "type": "color"
+    }
+  },
+  "space": {
+    "4": {
+      "value": "4px",
+      "type": "dimension"
+    },
+    "8": {
+      "value": "8px",
+      "type": "dimension"
+    },
+    "12": {
+      "value": "12px",
+      "type": "dimension"
+    },
+    "16": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "20": {
+      "value": "20px",
+      "type": "dimension"
+    },
+    "24": {
+      "value": "24px",
+      "type": "dimension"
+    },
+    "32": {
+      "value": "32px",
+      "type": "dimension"
+    },
+    "40": {
+      "value": "40px",
+      "type": "dimension"
+    },
+    "48": {
+      "value": "48px",
+      "type": "dimension"
+    },
+    "64": {
+      "value": "64px",
+      "type": "dimension"
+    }
+  },
+  "radius": {
+    "sm": {
+      "value": "6px",
+      "type": "dimension"
+    },
+    "md": {
+      "value": "8px",
+      "type": "dimension"
+    },
+    "lg": {
+      "value": "12px",
+      "type": "dimension"
+    },
+    "xl": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "pill": {
+      "value": "999px",
+      "type": "dimension"
+    }
+  },
+  "typography": {
+    "pageTitle": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "30px",
+        "fontWeight": 700,
+        "lineHeight": "43px"
+      },
+      "type": "typography"
+    },
+    "sectionTitle": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "16px",
+        "fontWeight": 700,
+        "lineHeight": "23px"
+      },
+      "type": "typography"
+    },
+    "body": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "13px",
+        "fontWeight": 400,
+        "lineHeight": "19px"
+      },
+      "type": "typography"
+    },
+    "table": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "12px",
+        "fontWeight": 400,
+        "lineHeight": "18px"
+      },
+      "type": "typography"
+    },
+    "caption": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "10px",
+        "fontWeight": 500,
+        "lineHeight": "15px"
+      },
+      "type": "typography"
+    },
+    "code": {
+      "value": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "11px",
+        "fontWeight": 400,
+        "lineHeight": "17px"
+      },
+      "type": "typography"
+    },
+    "bodyStrong": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "13px",
+        "fontWeight": 700,
+        "lineHeight": "19px"
+      },
+      "type": "typography"
+    },
+    "buttonLabel": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "12px",
+        "fontWeight": 500,
+        "lineHeight": "17px"
+      },
+      "type": "typography"
+    },
+    "tag": {
+      "value": {
+        "fontFamily": "Noto Sans SC",
+        "fontSize": "11px",
+        "fontWeight": 500,
+        "lineHeight": "16px"
+      },
+      "type": "typography"
+    }
+  },
+  "layout": {
+    "desktopWidth": {
+      "value": "1440px",
+      "type": "dimension"
+    },
+    "desktopHeight": {
+      "value": "1024px",
+      "type": "dimension"
+    },
+    "sidebarWidth": {
+      "value": "232px",
+      "type": "dimension"
+    },
+    "topbarHeight": {
+      "value": "72px",
+      "type": "dimension"
+    },
+    "contentLeft": {
+      "value": "264px",
+      "type": "dimension"
+    },
+    "contentWidth": {
+      "value": "1144px",
+      "type": "dimension"
+    }
+  },
+  "effect": {
+    "heroShadow": {
+      "value": {
+        "color": "#00000038",
+        "offsetX": "0px",
+        "offsetY": "12px",
+        "blur": "28px",
+        "spread": "0px"
+      },
+      "type": "shadow"
+    }
+  }
+}

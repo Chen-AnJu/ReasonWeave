@@ -1,0 +1,61 @@
+/* ReasonWeave v0.4.1 — source values mirrored by Figma semantic variables */
+:root {
+  --rw-canvas: #0B0F14;
+  --rw-sidebar: #0E141C;
+  --rw-surface: #111821;
+  --rw-elevated: #17212B;
+  --rw-elevated-strong: #1B2733;
+  --rw-border: #273241;
+  --rw-border-subtle: #1D2732;
+  --rw-text-primary: #F3F6F8;
+  --rw-text-secondary: #AAB6C5;
+  --rw-text-muted: #8290A3;
+  --rw-brand: #52E0C4;
+  --rw-info: #65A8FF;
+  --rw-success: #4DD4A4;
+  --rw-warning: #F3B65A;
+  --rw-danger: #FF6B7A;
+  --rw-hypothesis: #A78BFA;
+  --rw-knowledge: #D6A7FF;
+
+  --rw-space-4: 4px;
+  --rw-space-8: 8px;
+  --rw-space-12: 12px;
+  --rw-space-16: 16px;
+  --rw-space-20: 20px;
+  --rw-space-24: 24px;
+  --rw-space-32: 32px;
+  --rw-space-40: 40px;
+  --rw-space-48: 48px;
+  --rw-space-64: 64px;
+
+  --rw-radius-sm: 6px;
+  --rw-radius-md: 8px;
+  --rw-radius-lg: 12px;
+  --rw-radius-xl: 16px;
+  --rw-radius-pill: 999px;
+
+  --rw-font-sans: "Noto Sans SC", "Source Han Sans CN", "Microsoft YaHei", sans-serif;
+  --rw-font-mono: "JetBrains Mono", monospace;
+  --rw-page-title-size: 30px;
+  --rw-page-title-line: 43px;
+  --rw-section-title-size: 16px;
+  --rw-section-title-line: 23px;
+  --rw-body-size: 13px;
+  --rw-body-line: 19px;
+  --rw-table-size: 12px;
+  --rw-table-line: 18px;
+  --rw-caption-size: 10px;
+  --rw-caption-line: 15px;
+  --rw-code-size: 11px;
+  --rw-code-line: 17px;
+
+  --rw-desktop-width: 1440px;
+  --rw-desktop-height: 1024px;
+  --rw-sidebar-width: 232px;
+  --rw-topbar-height: 72px;
+  --rw-content-left: 264px;
+  --rw-content-width: 1144px;
+
+  --rw-shadow-hero: 0 12px 28px rgb(0 0 0 / 22%);
+}

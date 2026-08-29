@@ -1,0 +1,41 @@
+event_types:
+  cold_holding_temperature_excursion:
+    event_requirements:
+      time_range: required
+    subject:
+      type: cold_holding_unit
+      identity_fields: [site_id, unit_id]
+      label_template: "{site_id}/{unit_id}"
+      attributes_schema:
+        type: object
+        required:
+          - site_id
+          - unit_id
+          - unit_type
+          - temperature_limit_c
+          - minimum_excursion_minutes
+          - maximum_sample_gap_minutes
+          - sensor_tolerance_c
+          - policy_reference
+        properties:
+          site_id: {type: string, minLength: 1, maxLength: 160}
+          unit_id: {type: string, minLength: 1, maxLength: 160}
+          unit_type:
+            type: string
+            enum: [walk_in_cooler, commercial_refrigerator, display_case, cold_room, other]
+          temperature_limit_c: {type: number, minimum: -50, maximum: 20}
+          minimum_excursion_minutes: {type: integer, minimum: 1, maximum: 1440}
+          maximum_sample_gap_minutes: {type: integer, minimum: 1, maximum: 1440}
+          sensor_tolerance_c: {type: number, exclusiveMinimum: 0, maximum: 10}
+          policy_reference: {type: string, minLength: 1, maxLength: 300}
+        additionalProperties: false
+    evidence_inputs:
+      observation_bundle:
+        enabled: true
+      text:
+        enabled: true
+        source_profile: operator_report
+        predicate: reported_cold_holding_symptom
+        verification_status: PENDING
+      image:
+        enabled: false

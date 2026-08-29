@@ -1,0 +1,16 @@
+spring:
+  flyway:
+    enabled: false
+  datasource:
+    hikari:
+      minimum-idle: 0
+      initialization-fail-timeout: -1
+
+management:
+  health:
+    db:
+      enabled: false
+
+logging:
+  level:
+    com.zaxxer.hikari: WARN

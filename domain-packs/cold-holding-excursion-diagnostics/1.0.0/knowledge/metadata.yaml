@@ -1,0 +1,66 @@
+fixture_only: false
+production_allowed: true
+author: ReasonWeave contributors
+licenses: [LicenseRef-US-Public-Domain, Apache-2.0]
+license_note: Original shortened summaries of public FDA and DOE material; see NOTICE.md and LICENSES.yaml.
+documents:
+  - id: cold-holding-measurement-verification
+    path: measurement-and-excursion-verification.md
+    language: zh-CN
+    source_title: FDA Food Code 2022, Annex 5 - Conducting Risk-Based Inspections
+    source_url: https://www.fda.gov/media/184685/download
+    source_revision: FDA-FoodCode2022-2023-01-18
+    source_license: LicenseRef-US-Public-Domain
+    modified: true
+    applicability:
+      event_types: [cold_holding_temperature_excursion]
+      context_predicates: [measurement_system_anomaly_detected, reference_probe_disagrees, sensor_calibration_invalid_or_expired, independent_product_probe_confirms_excursion]
+    expected_predicates: [measurement_system_anomaly_detected, reference_probe_disagrees, sensor_calibration_invalid_or_expired, single_sensor_spike_without_peer_confirmation, independent_product_probe_confirms_excursion]
+  - id: cold-holding-monitoring-records
+    path: monitoring-calibration-and-records.md
+    language: zh-CN
+    source_title: HACCP Principles and Application Guidelines
+    source_url: https://www.fda.gov/food/hazard-analysis-critical-control-point-haccp/haccp-principles-application-guidelines
+    source_revision: retrieved-2026-08-29
+    source_license: LicenseRef-US-Public-Domain
+    modified: true
+    applicability:
+      event_types: [cold_holding_temperature_excursion]
+      context_predicates: [telemetry_gap_or_clock_anomaly, sensor_calibration_invalid_or_expired]
+    expected_predicates: [measurement_system_anomaly_detected, sensor_calibration_invalid_or_expired, telemetry_gap_or_clock_anomaly]
+  - id: cold-holding-power-interruption
+    path: power-interruption-evidence.md
+    language: zh-CN
+    source_title: Food and Water Safety During Power Outages and Floods
+    source_url: https://www.fda.gov/food/buy-store-serve-safe-food/food-and-water-safety-during-power-outages-and-floods
+    source_revision: retrieved-2026-08-29
+    source_license: LicenseRef-US-Public-Domain
+    modified: true
+    applicability:
+      event_types: [cold_holding_temperature_excursion]
+      context_predicates: [power_or_control_interruption_detected, power_interruption_overlaps_excursion, power_stable_through_excursion]
+    expected_predicates: [power_or_control_interruption_detected, power_interruption_overlaps_excursion, controller_offline_overlaps_excursion, abnormal_defrost_overlaps_excursion, power_stable_through_excursion]
+  - id: cold-holding-equipment-process
+    path: equipment-versus-process.md
+    language: zh-CN
+    source_title: FDA Food Code 2022, Annex 5 - Holding Time and Temperatures
+    source_url: https://www.fda.gov/media/184685/download
+    source_revision: FDA-FoodCode2022-2023-01-18
+    source_license: LicenseRef-US-Public-Domain
+    modified: true
+    applicability:
+      event_types: [cold_holding_temperature_excursion]
+      context_predicates: [refrigeration_response_failure_detected, operational_heat_load_detected, cooling_command_without_recovery, normal_recovery_after_door_close]
+    expected_predicates: [refrigeration_response_failure_detected, cooling_command_without_recovery, operational_heat_load_detected, normal_recovery_after_door_close]
+  - id: cold-holding-door-airflow-maintenance
+    path: door-seals-airflow-and-maintenance.md
+    language: zh-CN
+    source_title: Walk-in Coolers and Freezers NOPR Technical Support Document
+    source_url: https://www1.eere.energy.gov/buildings/appliance_standards/pdfs/wicf_nopr_tsd_2.pdf
+    source_revision: DOE-EERE-2013-WICF-NOPR-TSD
+    source_license: LicenseRef-US-Public-Domain
+    modified: true
+    applicability:
+      event_types: [cold_holding_temperature_excursion]
+      context_predicates: [prolonged_door_open_overlaps_excursion, storage_airflow_obstructed, coil_or_airflow_component_fault_observed]
+    expected_predicates: [operational_heat_load_detected, prolonged_door_open_overlaps_excursion, warm_load_introduced_before_excursion, storage_airflow_obstructed, refrigeration_response_failure_detected, compressor_or_fan_alarm_present, coil_or_airflow_component_fault_observed]

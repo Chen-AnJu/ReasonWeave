@@ -1,0 +1,20 @@
+keyword_top_k: 20
+vector_top_k: 20
+final_top_k: 6
+vector_policy: required
+embedding_query_instruction: Given a cold-holding operational temperature excursion, retrieve authoritative guidance useful for distinguishing power, equipment, operational heat-load, and measurement causes without making food disposition or legal decisions.
+query_intents:
+  - type: CAUSE_CANDIDATES
+    template: "{title} {description} {predicate_labels} 冷藏温度异常的可能运行原因"
+  - type: EXPECTED_EVIDENCE
+    template: "{title} {description} {predicate_labels} 原因成立时应有哪些记录和测量迹象"
+  - type: INVESTIGATION_ACTIONS
+    template: "{title} {description} {predicate_labels} 下一步应复核哪些只读证据"
+fusion:
+  type: rrf
+  k: 60
+weights:
+  applicability: 1.25
+source_diversity:
+  max_units_per_document: 2
+minimum_score: 0.01

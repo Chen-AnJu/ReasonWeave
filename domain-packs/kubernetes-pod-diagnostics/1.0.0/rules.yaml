@@ -1,0 +1,103 @@
+rules:
+  - id: kubernetes.pod.unschedulable
+    version: "1"
+    hypothesis: scheduling_constraint
+    predicate: pod_unschedulable
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: kubernetes.pod.scheduling_gated
+    version: "1"
+    hypothesis: scheduling_constraint
+    predicate: pod_scheduling_gated
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.70
+  - id: kubernetes.pod.evicted
+    version: "1"
+    hypothesis: scheduling_constraint
+    predicate: pod_evicted
+    when: present
+    relation: PARTIALLY_SUPPORTS
+    expected_weight: 0.45
+  - id: kubernetes.image.pull_backoff
+    version: "1"
+    hypothesis: image_acquisition_failure
+    predicate: image_pull_backoff
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: kubernetes.image.pull_error
+    version: "1"
+    hypothesis: image_acquisition_failure
+    predicate: image_pull_error
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: kubernetes.image.invalid_name
+    version: "1"
+    hypothesis: image_acquisition_failure
+    predicate: invalid_image_name
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: kubernetes.configuration.container
+    version: "1"
+    hypothesis: configuration_or_mount_failure
+    predicate: container_config_error
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: kubernetes.configuration.mount
+    version: "1"
+    hypothesis: configuration_or_mount_failure
+    predicate: volume_mount_failed
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.95
+  - id: kubernetes.runtime.crash_loop
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: crash_loop_backoff
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: kubernetes.runtime.nonzero_exit
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: container_exit_nonzero
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.75
+  - id: kubernetes.runtime.oom
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: container_oom_killed
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.95
+  - id: kubernetes.runtime.readiness
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: readiness_probe_failed
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.65
+  - id: kubernetes.runtime.liveness
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: liveness_probe_failed
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.75
+  - id: kubernetes.runtime.restarts
+    version: "1"
+    hypothesis: runtime_or_health_failure
+    predicate: restart_count
+    when: present
+    relation: PARTIALLY_SUPPORTS
+    expected_weight: 0.40

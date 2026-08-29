@@ -1,0 +1,54 @@
+name: reasonweave-test
+
+services:
+  postgres-test:
+    image: ${RW_POSTGRES_IMAGE:-reasonweave-postgres:0.4.1}
+    build:
+      context: ..
+      dockerfile: infra/postgres/Dockerfile
+    environment:
+      POSTGRES_DB: reasonweave_test
+      POSTGRES_USER: reasonweave
+      POSTGRES_PASSWORD: reasonweave_test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reasonweave -d reasonweave_test"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    tmpfs:
+      - /var/lib/postgresql/data:uid=70,gid=70,mode=0700
+    networks: [reasonweave-test]
+
+  backend-test:
+    image: maven:3.9.9-eclipse-temurin-21
+    working_dir: /workspace/backend
+    command: mvn -B verify
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-test:5432/reasonweave_test
+      SPRING_DATASOURCE_USERNAME: reasonweave
+      SPRING_DATASOURCE_PASSWORD: reasonweave_test
+      RW_VISION_PROVIDER: mock
+      RW_EMBEDDING_PROVIDER: mock
+      RW_EMBEDDING_DIMENSION: "1024"
+      RW_EMBEDDING_MODEL_DIGEST: test-only
+      RW_SEED_FIXTURES: "false"
+      RW_DOMAIN_PACK_ROOTS: /workspace/domain-packs
+      RW_FIXTURE_ROOT: /workspace/fixtures
+    volumes:
+      - ../backend:/workspace/backend
+      - ../contracts:/workspace/contracts:ro
+      - ../domain-packs:/workspace/domain-packs:ro
+      - ../fixtures:/workspace/fixtures:ro
+      - reasonweave-maven-cache:/root/.m2
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    networks: [reasonweave-test]
+
+volumes:
+  reasonweave-maven-cache:
+    name: reasonweave-test_reasonweave-maven-cache
+
+networks:
+  reasonweave-test:
+    name: reasonweave-test

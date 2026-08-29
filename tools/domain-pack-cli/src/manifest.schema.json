@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reasonweave.dev/schemas/domain-pack/1.0/manifest.json",
+  "title": "ReasonWeave Domain Pack Manifest 1.0",
+  "type": "object",
+  "required": [
+    "format_version",
+    "key",
+    "version",
+    "name",
+    "engine",
+    "compatible_eventir",
+    "event_types",
+    "event_definitions",
+    "production_allowed",
+    "capabilities",
+    "source_profiles",
+    "knowledge",
+    "hypotheses",
+    "rules",
+    "next_evidence"
+  ],
+  "properties": {
+    "format_version": { "const": "1.0" },
+    "key": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "description": { "type": "string", "maxLength": 1000 },
+    "engine": {
+      "type": "string",
+      "pattern": "^>=[0-9]+\\.[0-9]+\\.[0-9]+ <[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "compatible_eventir": { "const": "0.1" },
+    "event_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]{2,63}$" }
+    },
+    "event_definitions": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*\\.ya?ml$"
+    },
+    "fixture_only": { "type": "boolean", "default": false },
+    "production_allowed": { "type": "boolean" },
+    "capabilities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "boolean" }
+    },
+    "hypothesis_limit": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "vector_policy": { "enum": ["required", "optional", "disabled"] },
+    "supported_target_versions": {
+      "type": "object",
+      "required": ["scheme", "minimum", "maximum_exclusive"],
+      "properties": {
+        "scheme": { "const": "semver" },
+        "minimum": { "type": "string" },
+        "maximum_exclusive": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "source_profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["reliability"],
+        "properties": {
+          "label": { "type": "string" },
+          "reliability": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "observation_bundle": {
+      "type": "object",
+      "required": ["schema_version"],
+      "properties": {
+        "schema_version": { "const": "observation-bundle/1.0" }
+      },
+      "additionalProperties": false
+    },
+    "knowledge": {
+      "type": "object",
+      "required": ["required", "metadata", "retrieval_config", "golden_queries", "golden_investigations"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "metadata": { "type": "string" },
+        "retrieval_config": { "type": "string" },
+        "golden_queries": { "type": "string" },
+        "golden_investigations": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "hypotheses": { "type": "string" },
+    "rules": { "type": "string" },
+    "next_evidence": { "type": "string" }
+  },
+  "additionalProperties": false
+}

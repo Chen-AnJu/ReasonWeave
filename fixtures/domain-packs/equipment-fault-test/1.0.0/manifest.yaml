@@ -1,0 +1,33 @@
+format_version: "1.0"
+key: equipment-fault-test
+version: 1.0.0
+name: Equipment Fault Test
+description: Synthetic non-production fixture used to prove domain-neutral engine behavior.
+engine: ">=0.4.1 <0.5.0"
+compatible_eventir: "0.1"
+event_types: [equipment_fault]
+event_definitions: event-definitions.yaml
+fixture_only: true
+production_allowed: false
+capabilities:
+  observation_bundle: true
+  knowledge_retrieval: true
+  external_collector: false
+  image_vision: false
+  automatic_remediation: false
+vector_policy: optional
+source_profiles:
+  sensor_export: {label: Sensor export, reliability: 0.90}
+  human_report: {label: Human report, reliability: 0.70}
+  uploaded_file: {label: Uploaded file, reliability: 0.80}
+observation_bundle: {schema_version: observation-bundle/1.0}
+knowledge:
+  required: true
+  metadata: knowledge/metadata.yaml
+  retrieval_config: retrieval-config.yaml
+  golden_queries: knowledge/golden-queries.yaml
+  golden_investigations: knowledge/golden-investigations.yaml
+hypotheses: hypotheses.yaml
+rules: rules.yaml
+next_evidence: next-evidence.yaml
+hypothesis_limit: 2

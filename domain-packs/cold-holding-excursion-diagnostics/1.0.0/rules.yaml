@@ -1,0 +1,152 @@
+rules:
+  - id: cold-holding.power-control.detected
+    version: "1"
+    hypothesis: power_or_control_interruption
+    predicate: power_or_control_interruption_detected
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: cold-holding.power.outage-overlap
+    version: "1"
+    hypothesis: power_or_control_interruption
+    predicate: power_interruption_overlaps_excursion
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: cold-holding.control.offline-overlap
+    version: "1"
+    hypothesis: power_or_control_interruption
+    predicate: controller_offline_overlaps_excursion
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.80
+  - id: cold-holding.control.defrost-overlap
+    version: "1"
+    hypothesis: power_or_control_interruption
+    predicate: abnormal_defrost_overlaps_excursion
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.70
+  - id: cold-holding.power.stable
+    version: "1"
+    hypothesis: power_or_control_interruption
+    predicate: power_stable_through_excursion
+    when: present
+    relation: CONTRADICTS
+    expected_weight: 0.70
+  - id: cold-holding.refrigeration.detected
+    version: "1"
+    hypothesis: refrigeration_equipment_response_failure
+    predicate: refrigeration_response_failure_detected
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: cold-holding.refrigeration.alarm
+    version: "1"
+    hypothesis: refrigeration_equipment_response_failure
+    predicate: compressor_or_fan_alarm_present
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: cold-holding.refrigeration.no-recovery
+    version: "1"
+    hypothesis: refrigeration_equipment_response_failure
+    predicate: cooling_command_without_recovery
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.85
+  - id: cold-holding.refrigeration.component-fault
+    version: "1"
+    hypothesis: refrigeration_equipment_response_failure
+    predicate: coil_or_airflow_component_fault_observed
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.80
+  - id: cold-holding.refrigeration.normal-recovery
+    version: "1"
+    hypothesis: refrigeration_equipment_response_failure
+    predicate: normal_recovery_after_door_close
+    when: present
+    relation: CONTRADICTS
+    expected_weight: 0.60
+  - id: cold-holding.operations.detected
+    version: "1"
+    hypothesis: operational_heat_load_or_airflow
+    predicate: operational_heat_load_detected
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: cold-holding.operations.door-open
+    version: "1"
+    hypothesis: operational_heat_load_or_airflow
+    predicate: prolonged_door_open_overlaps_excursion
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: cold-holding.operations.warm-load
+    version: "1"
+    hypothesis: operational_heat_load_or_airflow
+    predicate: warm_load_introduced_before_excursion
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.80
+  - id: cold-holding.operations.airflow
+    version: "1"
+    hypothesis: operational_heat_load_or_airflow
+    predicate: storage_airflow_obstructed
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.75
+  - id: cold-holding.operations.no-load-change
+    version: "1"
+    hypothesis: operational_heat_load_or_airflow
+    predicate: door_closed_and_no_load_change
+    when: present
+    relation: CONTRADICTS
+    expected_weight: 0.60
+  - id: cold-holding.measurement.detected
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: measurement_system_anomaly_detected
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 1.00
+    required: true
+  - id: cold-holding.measurement.probe-disagreement
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: reference_probe_disagrees
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: cold-holding.measurement.calibration
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: sensor_calibration_invalid_or_expired
+    when: present
+    relation: STRONGLY_SUPPORTS
+    expected_weight: 0.90
+  - id: cold-holding.measurement.single-spike
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: single_sensor_spike_without_peer_confirmation
+    when: present
+    relation: SUPPORTS
+    expected_weight: 0.80
+  - id: cold-holding.measurement.data-gap
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: telemetry_gap_or_clock_anomaly
+    when: present
+    relation: PARTIALLY_SUPPORTS
+    expected_weight: 0.50
+  - id: cold-holding.measurement.independent-confirmation
+    version: "1"
+    hypothesis: measurement_system_issue
+    predicate: independent_product_probe_confirms_excursion
+    when: present
+    relation: STRONGLY_CONTRADICTS
+    expected_weight: 0.90

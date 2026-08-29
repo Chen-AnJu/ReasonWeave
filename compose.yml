@@ -1,0 +1,130 @@
+name: reasonweave
+
+services:
+  postgres:
+    image: ${RW_POSTGRES_IMAGE:-reasonweave-postgres:0.4.1}
+    build:
+      context: .
+      dockerfile: infra/postgres/Dockerfile
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: reasonweave
+      POSTGRES_USER: reasonweave
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    volumes:
+      - reasonweave-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reasonweave -d reasonweave"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    networks: [reasonweave]
+
+  ollama:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
+    build:
+      context: .
+      dockerfile: infra/ollama/Dockerfile
+    restart: unless-stopped
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_KEEP_ALIVE: 10m
+      OLLAMA_NUM_PARALLEL: "1"
+    volumes:
+      - reasonweave-ollama:/home/ollama/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 8s
+      retries: 30
+    mem_limit: 2g
+    networks: [reasonweave]
+
+  ollama-model:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
+    build:
+      context: .
+      dockerfile: infra/ollama/Dockerfile
+    restart: "no"
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["reasonweave-ensure-model"]
+    command: ["${RW_EMBEDDING_MODEL:-qwen3-embedding:0.6b}"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    networks: [reasonweave]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runtime
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reasonweave
+      SPRING_DATASOURCE_USERNAME: reasonweave
+      SPRING_CONFIG_IMPORT: optional:configtree:/run/secrets/
+      RW_INSTANCE_NAME: ${RW_INSTANCE_NAME:-ReasonWeave}
+      RW_BLOB_ROOT: /data/blob
+      RW_DOMAIN_PACK_ROOTS: /app/domain-packs
+      RW_SEED_FIXTURES: "false"
+      RW_VISION_PROVIDER: mock
+      RW_EMBEDDING_PROVIDER: ollama
+      RW_EMBEDDING_BASE_URL: http://ollama:11434
+      RW_EMBEDDING_PATH: /api/embed
+      RW_EMBEDDING_MODEL: ${RW_EMBEDDING_MODEL:-qwen3-embedding:0.6b}
+      RW_EMBEDDING_DIMENSION: "1024"
+      RW_EMBEDDING_MODEL_DIGEST: ${RW_EMBEDDING_MODEL_DIGEST:-ac6da0dfba84a81fdbfbaf330198c33cd77c4cdfc53e8bc50eb581914a15621d}
+      JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=70.0
+    secrets:
+      - source: postgres_password
+        target: spring.datasource.password
+    volumes:
+      - reasonweave-blob:/data/blob
+      - ./domain-packs:/app/domain-packs:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama-model:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/actuator/health/readiness"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    mem_limit: 1536m
+    networks: [reasonweave]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${RW_HTTP_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks: [reasonweave]
+
+secrets:
+  postgres_password:
+    file: ./.local/secrets/postgres_password
+
+volumes:
+  reasonweave-postgres:
+  reasonweave-ollama:
+    name: reasonweave-ollama-model-cache
+    external: true
+  reasonweave-blob:
+
+networks:
+  reasonweave:

@@ -1,0 +1,7 @@
+queries:
+  - id: equipment-temperature
+    query: 设备持续高温
+    expected_document_ids: [equipment-temperature-fixture]
+  - id: equipment-vibration
+    query: 旋转设备异常振动
+    expected_document_ids: [equipment-vibration-fixture]

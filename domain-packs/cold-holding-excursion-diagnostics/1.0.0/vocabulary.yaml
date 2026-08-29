@@ -1,0 +1,85 @@
+predicates:
+  temperature_excursion_detected:
+    label: 已检测到持续温度异常
+    value_schema: {type: boolean}
+  observed_peak_temperature_c:
+    label: 观察到的峰值温度（摄氏度）
+    value_schema: {type: number, minimum: -100, maximum: 100}
+  observed_excursion_duration_minutes:
+    label: 观察到的异常持续时间（分钟）
+    value_schema: {type: number, minimum: 0, maximum: 100000}
+  observed_recovery_drop_c:
+    label: 观察到的恢复降温幅度（摄氏度）
+    value_schema: {type: number, minimum: -100, maximum: 100}
+  observed_max_sensor_disagreement_c:
+    label: 最大传感器差异（摄氏度）
+    value_schema: {type: number, minimum: 0, maximum: 100}
+  telemetry_sample_count:
+    label: 遥测样本数
+    value_schema: {type: integer, minimum: 0}
+  power_or_control_interruption_detected:
+    label: 已检测到供电或控制中断
+    value_schema: {type: boolean}
+  power_interruption_overlaps_excursion:
+    label: 停电与温度异常时间重叠
+    value_schema: {type: boolean}
+  controller_offline_overlaps_excursion:
+    label: 控制器离线与温度异常时间重叠
+    value_schema: {type: boolean}
+  abnormal_defrost_overlaps_excursion:
+    label: 异常除霜与温度异常时间重叠
+    value_schema: {type: boolean}
+  power_stable_through_excursion:
+    label: 温度异常期间供电记录完整且稳定
+    value_schema: {type: boolean}
+  refrigeration_response_failure_detected:
+    label: 已检测到制冷响应不足
+    value_schema: {type: boolean}
+  compressor_or_fan_alarm_present:
+    label: 压缩机或风机报警
+    value_schema: {type: boolean}
+  cooling_command_without_recovery:
+    label: 持续制冷命令下温度未恢复
+    value_schema: {type: boolean}
+  coil_or_airflow_component_fault_observed:
+    label: 已观察到盘管、风机或制冷部件异常
+    value_schema: {type: boolean}
+  normal_recovery_after_door_close:
+    label: 关门后温度正常恢复
+    value_schema: {type: boolean}
+  operational_heat_load_detected:
+    label: 已检测到开门、装载或气流扰动
+    value_schema: {type: boolean}
+  prolonged_door_open_overlaps_excursion:
+    label: 长时间开门与温度异常重叠
+    value_schema: {type: boolean}
+  warm_load_introduced_before_excursion:
+    label: 异常前有较热物品装入
+    value_schema: {type: boolean}
+  storage_airflow_obstructed:
+    label: 储藏空间气流受阻
+    value_schema: {type: boolean}
+  door_closed_and_no_load_change:
+    label: 门状态记录完整且无装载变化
+    value_schema: {type: boolean}
+  measurement_system_anomaly_detected:
+    label: 已检测到测量系统异常
+    value_schema: {type: boolean}
+  reference_probe_disagrees:
+    label: 固定记录器与参考探头读数不一致
+    value_schema: {type: boolean}
+  sensor_calibration_invalid_or_expired:
+    label: 传感器校准无效或已过期
+    value_schema: {type: boolean}
+  single_sensor_spike_without_peer_confirmation:
+    label: 单传感器尖峰未获其他传感器确认
+    value_schema: {type: boolean}
+  telemetry_gap_or_clock_anomaly:
+    label: 遥测存在时间缺口或时钟异常
+    value_schema: {type: boolean}
+  independent_product_probe_confirms_excursion:
+    label: 独立产品探头确认温度异常
+    value_schema: {type: boolean}
+  reported_cold_holding_symptom:
+    label: 人工报告的冷藏温度异常现象
+    value_schema: {type: string, minLength: 1, maxLength: 4000}

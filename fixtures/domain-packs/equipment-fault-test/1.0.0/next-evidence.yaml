@@ -1,0 +1,13 @@
+recommendations:
+  - id: inspect_temperature_sensor
+    title: 复核温度传感器读数
+    discriminates: [overheating, mechanical_imbalance]
+    expected_predicate: temperature_high
+    estimated_impact: high
+    acquisition_cost: low
+  - id: inspect_vibration_sensor
+    title: 采集振动传感器读数
+    discriminates: [mechanical_imbalance, overheating]
+    expected_predicate: vibration_level
+    estimated_impact: high
+    acquisition_cost: low

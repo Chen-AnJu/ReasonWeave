@@ -1,0 +1,10 @@
+predicates:
+  temperature_high:
+    label: 温度超过正常范围
+    value_schema: {type: boolean}
+  vibration_level:
+    label: 振动强度
+    value_schema: {type: number, minimum: 0, maximum: 100}
+  reported_issue:
+    label: 人工报告的设备现象
+    value_schema: {type: string, minLength: 1, maxLength: 4000}

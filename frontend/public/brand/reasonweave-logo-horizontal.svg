@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="64" viewBox="0 0 300 64">
+  <g>
+    <rect x="1" y="1" width="62" height="62" rx="18" fill="#143B37" stroke="#52E0C4" stroke-width="2"/>
+    <path d="M10 16 C22 16 20 50 29 50 C41 50 38 16 50 16 C58 16 58 29 60 32" fill="none" stroke="#52E0C4" stroke-width="6" stroke-linecap="round"/>
+    <path d="M10 30 C22 30 22 8 30 8 C41 8 42 54 52 54 C58 54 60 46 60 40" fill="none" stroke="#65A8FF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M14 50 C24 50 26 36 34 36 C44 36 46 20 58 20" fill="none" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="82" y="41" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#F3F6F8">ReasonWeave</text>
+</svg>

@@ -1,0 +1,16 @@
+queries:
+  - id: scheduling-unschedulable
+    query: Pod Pending Unschedulable 无法调度 node selector 资源不足
+    expected_document_ids: [kubernetes-scheduling-debug, kubernetes-resources]
+  - id: image-pull-backoff
+    query: ImagePullBackOff ErrImagePull 镜像仓库拉取失败
+    expected_document_ids: [kubernetes-images]
+  - id: configuration-mount
+    query: CreateContainerConfigError FailedMount ConfigMap Secret volume 挂载
+    expected_document_ids: [kubernetes-scheduling-debug]
+  - id: crash-loop-oom
+    query: CrashLoopBackOff OOMKilled non-zero exit restart previous logs
+    expected_document_ids: [kubernetes-pod-lifecycle, kubernetes-resources]
+  - id: probe-failure
+    query: readiness liveness startup probe Unhealthy 就绪探针失败
+    expected_document_ids: [kubernetes-probes]

@@ -1,0 +1,7 @@
+hypotheses:
+  - code: overheating
+    title: 设备过热
+    description: 设备温度超过正常运行范围。
+  - code: mechanical_imbalance
+    title: 机械不平衡
+    description: 旋转部件不平衡导致异常振动。

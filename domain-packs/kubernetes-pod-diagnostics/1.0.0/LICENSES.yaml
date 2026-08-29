@@ -1,0 +1,11 @@
+components:
+  - scope: pack-rules-and-metadata
+    license: Apache-2.0
+    source: https://github.com/k8sgpt-ai/k8sgpt/tree/v0.4.36
+    revision: d33935a7b6f7039ec649925420d6b29c9b119567
+    modified: true
+  - scope: knowledge-summaries
+    license: CC-BY-4.0
+    source: https://github.com/kubernetes/website/tree/dev-1.37
+    revision: aebe074739e78e9111943ac285df6ae3a6319f69
+    modified: true

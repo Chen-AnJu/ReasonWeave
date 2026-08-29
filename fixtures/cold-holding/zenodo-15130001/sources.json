@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "source_id": "zenodo-sensor-01",
+      "source_type": "fixed_temperature_logger",
+      "sensor_role": "air",
+      "calibration_status": "not_applicable",
+      "source_locator": "Raw.zip/SENSOR01.CSV"
+    },
+    {
+      "source_id": "zenodo-experiment-actions",
+      "source_type": "operator_report",
+      "sensor_role": "inspection",
+      "calibration_status": "not_applicable",
+      "source_locator": "experiment_actions.csv"
+    }
+  ]
+}

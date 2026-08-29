@@ -1,0 +1,6 @@
+target/*
+!target/reasonweave-backend-0.4.1.jar
+.mvn
+mvnw
+mvnw.cmd
+*.iml
