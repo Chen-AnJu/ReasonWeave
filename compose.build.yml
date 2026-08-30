@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: ${RW_POSTGRES_IMAGE:-reasonweave-postgres:local}
+    build:
+      context: .
+      dockerfile: infra/postgres/Dockerfile
+      args:
+        RW_IMAGE_REVISION: ${RW_IMAGE_REVISION:-local}
+        RW_IMAGE_VERSION: ${RW_IMAGE_VERSION:-0.4.1-local}
+
+  ollama:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:local}
+    build:
+      context: .
+      dockerfile: infra/ollama/Dockerfile
+      args:
+        RW_IMAGE_REVISION: ${RW_IMAGE_REVISION:-local}
+        RW_IMAGE_VERSION: ${RW_IMAGE_VERSION:-0.4.1-local}
+
+  ollama-model:
+    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:local}
+
+  backend:
+    image: ${RW_BACKEND_IMAGE:-reasonweave-backend:local}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runtime
+      args:
+        RW_IMAGE_REVISION: ${RW_IMAGE_REVISION:-local}
+        RW_IMAGE_VERSION: ${RW_IMAGE_VERSION:-0.4.1-local}
+
+  frontend:
+    image: ${RW_FRONTEND_IMAGE:-reasonweave-frontend:local}
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        RW_IMAGE_REVISION: ${RW_IMAGE_REVISION:-local}
+        RW_IMAGE_VERSION: ${RW_IMAGE_VERSION:-0.4.1-local}

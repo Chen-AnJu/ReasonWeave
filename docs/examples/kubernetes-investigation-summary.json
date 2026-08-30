@@ -1,0 +1,33 @@
+{
+  "scenario": "kubernetes-image-pull-failure",
+  "domain_pack": "kubernetes-pod-diagnostics/1.0.0",
+  "top_hypothesis": {
+    "code": "image_acquisition_failure",
+    "title": "镜像获取失败",
+    "support_index": 64,
+    "coverage": 0.3571,
+    "band": "LEANING_SUPPORTED",
+    "grounding_status": "GROUNDED"
+  },
+  "scoring_evidence": [
+    {
+      "predicate": "image_pull_backoff",
+      "relation": "STRONGLY_SUPPORTS",
+      "contribution": 0.95
+    }
+  ],
+  "citations": [
+    {
+      "document": "kubernetes-images",
+      "section": "容器镜像获取失败",
+      "score_affecting": false
+    },
+    {
+      "document": "kubernetes-images",
+      "section": "可观察状态",
+      "score_affecting": false
+    }
+  ],
+  "next_evidence": "查看 Pod 调度条件和相关事件",
+  "support_index_disclaimer": "支持指数不是概率，只表示当前证据与规则下的相对支持程度"
+}

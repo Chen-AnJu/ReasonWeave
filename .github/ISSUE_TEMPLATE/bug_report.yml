@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a reproducible ReasonWeave defect
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Before filing, remove secrets, production evidence, kubeconfig content, and private infrastructure details.
+  - type: input
+    id: version
+    attributes:
+      label: Version or image digest
+      placeholder: 0.4.1-preview-... or sha256:...
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - API / backend
+        - Web console
+        - Docker Compose
+        - rwpack CLI
+        - rw-evidence CLI
+        - Kubernetes Domain Pack
+        - Cold-holding Domain Pack
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Include exact commands and sanitized input needed to reproduce the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs and Request ID
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, production data, private addresses, and identifying evidence.
+          required: true
+        - label: This is not a vulnerability report; security issues follow SECURITY.md.
+          required: true

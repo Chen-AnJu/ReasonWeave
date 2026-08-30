@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { promisify } from 'node:util';
+import { fileURLToPath } from 'node:url';
 import { projectedPod } from '../src/cli.mjs';
 import { buildBundle } from '../src/kubernetes.mjs';
 
@@ -112,4 +113,11 @@ test('starts Kubernetes-only CLI usage without installing the cold-holding CSV d
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test('reports the CLI version without loading a collector', async () => {
+  const { stdout } = await runFile(process.execPath, [
+    fileURLToPath(new URL('../src/cli.mjs', import.meta.url)), '--version',
+  ], { encoding: 'utf8' });
+  assert.equal(stdout.trim(), '0.4.1');
 });

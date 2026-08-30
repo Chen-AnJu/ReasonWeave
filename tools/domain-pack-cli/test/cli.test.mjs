@@ -74,6 +74,11 @@ test('validates, deterministically packages, verifies, installs, and lists a pac
   await assert.rejects(run('validate', drifted), /checksums do not match/);
 });
 
+test('reports its version and actionable missing-target errors', async () => {
+  assert.equal((await run('--version')).stdout.trim(), '0.4.1');
+  await assert.rejects(run('validate'), /Missing <target> for 'validate'.*rwpack --help/s);
+});
+
 test('initializes a minimal valid Domain Pack template', async () => {
   const temporary = await mkdtemp(join(tmpdir(), 'rwpack-init-'));
   const target = join(temporary, 'example-diagnostics');

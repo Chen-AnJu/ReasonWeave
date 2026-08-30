@@ -91,7 +91,7 @@ export function ApiPlaygroundPage() {
   const request = buildRequest(selected, parameterValues, headers, body);
   const sample = jsonError
     ? '请先修正 JSON 请求体，再生成代码示例。'
-    : buildCodeSample(language, request.url, selected.method, request.headers, selected.hasJsonBody ? body : undefined);
+    : buildCodeSample(language, window.location.origin, request.url, selected.method, request.headers, selected.hasJsonBody ? body : undefined);
 
   const execute = async () => {
     if (disabledReason) return;

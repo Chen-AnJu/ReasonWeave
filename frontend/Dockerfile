@@ -11,6 +11,14 @@ COPY frontend ./frontend
 RUN pnpm --dir frontend build
 
 FROM nginx:1.31.4-alpine3.24 AS runtime
+ARG RW_IMAGE_REVISION=unknown
+ARG RW_IMAGE_VERSION=0.4.1-preview
+LABEL org.opencontainers.image.title="ReasonWeave frontend" \
+      org.opencontainers.image.description="Web console and same-origin API gateway for ReasonWeave" \
+      org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \
+      org.opencontainers.image.revision="${RW_IMAGE_REVISION}" \
+      org.opencontainers.image.version="${RW_IMAGE_VERSION}" \
+      org.opencontainers.image.licenses="Apache-2.0"
 COPY --chown=nginx:nginx frontend/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /workspace/frontend/dist /usr/share/nginx/html
 RUN apk upgrade --no-cache \

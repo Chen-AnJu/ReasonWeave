@@ -17,11 +17,11 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'pnpm exec vite preview --port 4174',
+    command: 'node ./node_modules/vite/bin/vite.js preview --port 4174',
     url: 'http://127.0.0.1:4174',
     reuseExistingServer: false,
     env: {
-      RW_API_PROXY_TARGET: 'http://127.0.0.1:18081',
+      RW_API_PROXY_TARGET: process.env.RW_API_PROXY_TARGET ?? 'http://127.0.0.1:18081',
     },
   },
   projects: [

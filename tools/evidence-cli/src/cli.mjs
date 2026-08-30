@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { buildBundle } from './kubernetes.mjs';
 
 const runFile = promisify(execFile);
+const CLI_VERSION = '0.4.1';
 
 async function atomicWriteNew(outputPath, content) {
   const temporary = `${outputPath}.${process.pid}.${randomUUID()}.tmp`;
@@ -166,6 +167,7 @@ async function collectColdHolding(args) {
 async function main() {
   const [domain, command, ...args] = process.argv.slice(2);
   if (!domain || domain === '--help' || domain === '-h') return process.stdout.write(`${usage()}\n`);
+  if (domain === '--version' || domain === '-V') return process.stdout.write(`${CLI_VERSION}\n`);
   if (domain === 'kubernetes' && command === 'collect') return collect(args);
   if (domain === 'cold-holding' && command === 'collect') return collectColdHolding(args);
   throw new Error(`Unknown command: ${[domain, command].filter(Boolean).join(' ')}\n\n${usage()}`);

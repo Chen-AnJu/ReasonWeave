@@ -1,10 +1,10 @@
-# API 快速开始
+# API Quick Start
 
-[English](api-quickstart.en.md) · [返回 README](../README.md)
+[中文](api-quickstart.md) · [Back to README](../README.en.md)
 
-本指南不使用控制台，直接完成 ReasonWeave 的公共 API 闭环。假设标准 Compose 入口为 `http://127.0.0.1:8080`。响应统一使用 `{data, meta}` 或 `{error, meta}`；请保存真实 ID 与 `meta.request_id`，不要照抄文档中的占位符。
+This guide completes the public ReasonWeave flow without the console. It assumes the standard Compose entry point is available at `http://127.0.0.1:8080`. Responses use `{data, meta}` or `{error, meta}`. Save returned IDs and `meta.request_id` values instead of copying placeholders from this document.
 
-## 1. 确认运行时并发现领域能力
+## 1. Verify the runtime and discover domain capabilities
 
 ### Bash / curl
 
@@ -25,11 +25,11 @@ Invoke-RestMethod "$BaseUrl/api/v1/domain-packs"
 Invoke-RestMethod "$BaseUrl/api/v1/domain-packs/kubernetes-pod-diagnostics/versions/1.0.0/event-types/kubernetes_pod_failure"
 ```
 
-事件定义响应是对象 Schema、身份字段、证据入口、目标版本和展示元数据的权威来源。客户端应先发现这些数据，不能在通用集成层硬编码 Kubernetes 或冷藏字段。
+The event definition is authoritative for subject schemas, identity fields, evidence inputs, target versions, and presentation metadata. Generic clients must discover these values rather than hard-code Kubernetes or cold-holding fields.
 
-## 2. 创建事件
+## 2. Create an event
 
-`Idempotency-Key` 必填。同一键和同一规范化请求返回原资源；同一键用于不同内容返回 `409`。
+`Idempotency-Key` is required. Reusing the key for the same canonical request returns the original resource; reusing it for different content returns `409`.
 
 ```bash
 curl --fail-with-body \
@@ -67,11 +67,11 @@ curl --fail-with-body \
 JSON
 ```
 
-保存响应的 `data.id` 为 `<event-id>`。服务会先校验 EventIR 0.1，再校验所选领域包的事件 Schema。
+Save `data.id` as `<event-id>`. The request is validated against EventIR 0.1 and then against the selected Domain Pack's event schema.
 
-## 3. 导入并复核 Observation
+## 3. Import and review Observations
 
-下面是所有外部采集器都可以生成的 `observation-bundle/1.0`。生产 Kubernetes 场景建议使用只读 `rw-evidence kubernetes collect` 采集。
+The payload below is the standard `observation-bundle/1.0` that any external collector can produce. Prefer the read-only `rw-evidence kubernetes collect` collector for live Kubernetes inputs.
 
 ```bash
 curl --fail-with-body \
@@ -113,7 +113,7 @@ curl --fail-with-body \
 JSON
 ```
 
-新 Observation 一律为 `PENDING`。保存返回的 `observation.id` 与 `observation.version`，显式确认：
+New Observations always start as `PENDING`. Save each returned Observation `id` and `version`, then confirm it explicitly:
 
 ```bash
 curl --fail-with-body \
@@ -123,9 +123,9 @@ curl --fail-with-body \
   --data '{"verification_status":"CONFIRMED"}'
 ```
 
-主体、来源档案、Predicate、值 Schema 或目标版本任一不合法，整个 Bundle 回滚，不保存部分证据。
+An invalid subject, source profile, predicate, value schema, or target version rejects the entire Bundle. Partial evidence is never persisted.
 
-## 4. 发起并读取调查
+## 4. Run and inspect an investigation
 
 ```bash
 curl --fail-with-body \
@@ -139,11 +139,11 @@ curl --fail-with-body \
 curl --fail-with-body "$BASE_URL/api/v1/events/<event-id>/audit"
 ```
 
-结果是不可变 Run 快照。新证据只会让旧 Run 标记为 stale，重新调查会创建新 Run，不重写旧结果。
+The result is an immutable Run snapshot. New evidence makes an old Run stale and a new investigation creates a new Run; it never rewrites the old result.
 
-## PowerShell：可直接执行的完整 Kubernetes 场景
+## PowerShell: complete executable Kubernetes flow
 
-下面脚本自动保存所有 ID、版本与幂等键：
+The following script captures every ID, version, and idempotency key:
 
 ```powershell
 $BaseUrl = 'http://127.0.0.1:8080'
@@ -226,13 +226,13 @@ Invoke-RestMethod "$BaseUrl/api/v1/events/$EventId/graph?investigation_id=$RunId
 Invoke-RestMethod "$BaseUrl/api/v1/events/$EventId/audit"
 ```
 
-## 已验证的成功结果
+## Verified success result
 
-上述症状对应 Golden Investigation 的归一化结果：
+The normalized Golden Investigation for this symptom is:
 
 ```json
 {
-  "top_hypothesis": "镜像获取失败",
+  "top_hypothesis": "Image acquisition failure",
   "support_index": 64,
   "coverage": 0.3571,
   "grounding_status": "GROUNDED",
@@ -240,17 +240,17 @@ Invoke-RestMethod "$BaseUrl/api/v1/events/$EventId/audit"
     { "predicate": "image_pull_backoff", "contribution": 0.95 }
   ],
   "citations": [
-    { "section": "容器镜像获取失败", "score_affecting": false },
-    { "section": "可观察状态", "score_affecting": false }
+    { "section": "Container image acquisition failures", "score_affecting": false },
+    { "section": "Observable states", "score_affecting": false }
   ]
 }
 ```
 
-支持指数是确定性规则输出，不是概率或自动根因裁决。完整结果见 [`docs/examples/kubernetes-investigation-summary.json`](examples/kubernetes-investigation-summary.json)。
+The support index is a deterministic rule output, not a probability or automatic root-cause decision. See [`docs/examples/kubernetes-investigation-summary.json`](examples/kubernetes-investigation-summary.json) for the complete normalized result.
 
-## 失败响应与 Request ID
+## Error response and Request ID
 
-例如提交空事件请求会返回 `400`：
+For example, an empty event request returns `400`:
 
 ```json
 {
@@ -263,11 +263,11 @@ Invoke-RestMethod "$BaseUrl/api/v1/events/$EventId/audit"
 }
 ```
 
-常见状态：`400` 合同或领域不匹配，`409` 幂等/版本冲突，`415` 媒体类型不支持或内容不匹配，`502` Provider 失败且失败 Run 已持久化。报告问题时提供脱敏后的 `meta.request_id`，不要提交密码、真实证据或私有网络信息。
+Typical statuses are `400` for contract/domain mismatches, `409` for idempotency or version conflicts, `415` for unsupported or mismatched content, and `502` for a persisted Provider failure. Include a sanitized `meta.request_id` in reports; never post passwords, production evidence, or private network information.
 
-## 冷藏温度异常场景
+## Cold-holding scenario
 
-冷藏事件要求 `occurred_at.start/end`，现场必须提供温度、持续时间、采样间隔与传感器容差阈值。采集器只在本地读取时间窗内的 CSV：
+Cold-holding events require `occurred_at.start/end` and site-supplied temperature, duration, sample-gap, and sensor-tolerance thresholds. The collector reads only local CSV rows inside that window:
 
 ```bash
 rw-evidence cold-holding collect \
@@ -277,8 +277,8 @@ rw-evidence cold-holding collect \
   --out cold-holding-bundle.json
 ```
 
-生成的 Bundle 仍使用同一个导入、复核、调查、图谱和审计 API。它诊断运行原因，不判断食品能否使用、销售或食用。
+The resulting Bundle uses the same import, review, investigation, graph, and audit APIs. It diagnoses operational causes and does not decide whether food may be used, sold, or consumed.
 
-## 合同
+## Contract
 
-版本化机器合同位于 [`contracts/openapi/reasonweave-v1.json`](../contracts/openapi/reasonweave-v1.json)。领域事件字段以运行中实例返回的事件定义为准；客户端不应复制一套行业专用 Wire DTO。
+The versioned machine contract is [`contracts/openapi/reasonweave-v1.json`](../contracts/openapi/reasonweave-v1.json). Event fields are defined by the event definition returned from the running instance. Clients should not maintain a second industry-specific Wire DTO set.

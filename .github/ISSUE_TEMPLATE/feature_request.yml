@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a focused improvement to the public core
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the current user workflow and the evidence that this problem exists.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Explain the observable result, not only a preferred implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Scope and trust-boundary impact
+      description: Note any API, scoring, privacy, Domain Pack, or deployment changes.
+    validations:
+      required: true
+  - type: checkboxes
+    id: exclusions
+    attributes:
+      label: Preview boundary
+      options:
+        - label: I understand the current preview has no authentication, multi-tenancy, automatic remediation, or Chat LLM.
+          required: true

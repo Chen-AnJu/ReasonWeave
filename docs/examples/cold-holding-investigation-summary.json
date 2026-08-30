@@ -1,0 +1,43 @@
+{
+  "scenario": "cold-holding-operational-heat-load",
+  "domain_pack": "cold-holding-excursion-diagnostics/1.0.0",
+  "top_hypothesis": {
+    "code": "operational_heat_load_or_airflow",
+    "title": "开门、装载或气流扰动",
+    "support_index": 73,
+    "coverage": 0.6667,
+    "band": "SUPPORTED",
+    "grounding_status": "GROUNDED"
+  },
+  "scoring_evidence": [
+    {
+      "predicate": "operational_heat_load_detected",
+      "relation": "STRONGLY_SUPPORTS",
+      "contribution": 0.8
+    },
+    {
+      "predicate": "prolonged_door_open_overlaps_excursion",
+      "relation": "STRONGLY_SUPPORTS",
+      "contribution": 0.72
+    },
+    {
+      "predicate": "warm_load_introduced_before_excursion",
+      "relation": "SUPPORTS",
+      "contribution": 0.48
+    }
+  ],
+  "citations": [
+    {
+      "document": "cold-holding-door-airflow-maintenance",
+      "section": "门封、装载、气流与设备检查",
+      "score_affecting": false
+    },
+    {
+      "document": "cold-holding-equipment-process",
+      "section": "区分制冷设备响应与运行过程偏差",
+      "score_affecting": false
+    }
+  ],
+  "next_evidence": "核对记录器校准、时钟和安装位置",
+  "support_index_disclaimer": "支持指数不是概率，只表示当前证据与规则下的相对支持程度"
+}

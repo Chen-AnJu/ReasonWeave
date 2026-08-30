@@ -6,7 +6,14 @@ with a functional change.
 
 ## Development checks
 
-Use Node.js 22, pnpm 11, and Java 21. Before proposing a change, run the checks
+Use Node.js 22, pnpm 11, and Java 21. PowerShell is not required on Linux or
+macOS. Install the Playwright browser once before frontend end-to-end tests:
+
+```console
+pnpm --dir frontend exec playwright install chromium
+```
+
+Before proposing a change, run the checks
 that cover the affected component:
 
 ```console
@@ -18,9 +25,24 @@ pnpm frontend:test
 pnpm frontend:build
 ```
 
-Backend unit tests run with Java 21. PostgreSQL/pgvector integration tests use
-disposable infrastructure. End-to-end checks must use test-only resources and
-must never target a production database or cluster.
+Backend unit tests run through the Maven Wrapper with Java 21:
+
+```console
+pnpm backend:test
+# equivalent: cd backend && ./mvnw -B verify
+```
+
+On Windows the equivalent wrapper is `backend\mvnw.cmd`. PostgreSQL/pgvector
+integration tests use disposable infrastructure. End-to-end checks must use
+test-only resources and must never target a production database or cluster.
+
+| Change | Minimum checks |
+| --- | --- |
+| Documentation only | `pnpm verify:open-source` and link review |
+| Domain Pack or collector | `pnpm cli:test`, `pnpm cli:pack`, relevant Golden fixtures |
+| Frontend | `pnpm frontend:check`, `pnpm frontend:test`, `pnpm frontend:build`; Playwright for flows |
+| Backend/API | `pnpm backend:test`, `pnpm api:types:check`; integration tests for persistence |
+| Compose/runtime image | clean Compose startup plus HIGH/CRITICAL image scanning |
 
 ## Core invariants
 

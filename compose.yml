@@ -2,10 +2,7 @@ name: reasonweave
 
 services:
   postgres:
-    image: ${RW_POSTGRES_IMAGE:-reasonweave-postgres:0.4.1}
-    build:
-      context: .
-      dockerfile: infra/postgres/Dockerfile
+    image: ${RW_POSTGRES_IMAGE:-ghcr.io/chen-anju/reasonweave-postgres:0.4.1-preview}
     restart: unless-stopped
     environment:
       POSTGRES_DB: reasonweave
@@ -23,10 +20,7 @@ services:
     networks: [reasonweave]
 
   ollama:
-    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
-    build:
-      context: .
-      dockerfile: infra/ollama/Dockerfile
+    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview}
     restart: unless-stopped
     environment:
       OLLAMA_HOST: 0.0.0.0:11434
@@ -43,10 +37,7 @@ services:
     networks: [reasonweave]
 
   ollama-model:
-    image: ${RW_OLLAMA_IMAGE:-reasonweave-ollama:0.4.1}
-    build:
-      context: .
-      dockerfile: infra/ollama/Dockerfile
+    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview}
     restart: "no"
     environment:
       OLLAMA_HOST: http://ollama:11434
@@ -58,10 +49,7 @@ services:
     networks: [reasonweave]
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-      target: runtime
+    image: ${RW_BACKEND_IMAGE:-ghcr.io/chen-anju/reasonweave-backend:0.4.1-preview}
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reasonweave
@@ -99,9 +87,7 @@ services:
     networks: [reasonweave]
 
   frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
+    image: ${RW_FRONTEND_IMAGE:-ghcr.io/chen-anju/reasonweave-frontend:0.4.1-preview}
     restart: unless-stopped
     ports:
       - "127.0.0.1:${RW_HTTP_PORT:-8080}:8080"
@@ -123,7 +109,6 @@ volumes:
   reasonweave-postgres:
   reasonweave-ollama:
     name: reasonweave-ollama-model-cache
-    external: true
   reasonweave-blob:
 
 networks:

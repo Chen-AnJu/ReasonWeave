@@ -6,6 +6,14 @@ COPY src ./src
 RUN mvn -B -DskipTests package
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
+ARG RW_IMAGE_REVISION=unknown
+ARG RW_IMAGE_VERSION=0.4.1-preview
+LABEL org.opencontainers.image.title="ReasonWeave backend" \
+      org.opencontainers.image.description="API-first evidence reasoning engine" \
+      org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \
+      org.opencontainers.image.revision="${RW_IMAGE_REVISION}" \
+      org.opencontainers.image.version="${RW_IMAGE_VERSION}" \
+      org.opencontainers.image.licenses="Apache-2.0"
 RUN apk upgrade --no-cache \
     && apk add --no-cache curl \
     && addgroup -S -g 10001 reasonweave \

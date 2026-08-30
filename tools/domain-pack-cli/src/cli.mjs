@@ -549,24 +549,27 @@ async function extractVerified(archive, temporaryParent = tmpdir()) {
 async function main() {
   const [command, target, ...args] = process.argv.slice(2);
   if (!command || command === '--help' || command === '-h') return console.log(usage());
-  if (command === 'init') return initPack(target, option(args, '--key'), option(args, '--version', '0.1.0'));
+  if (command === '--version' || command === '-V') return console.log(ENGINE_VERSION);
+  if (command === 'init') return initPack(requireTarget(command, target), option(args, '--key'), option(args, '--version', '0.1.0'));
   if (command === 'validate') {
-    const result = await validate(target, existsSync(join(resolve(target), 'checksums.sha256')));
+    const packDirectory = requireTarget(command, target);
+    const result = await validate(packDirectory, existsSync(join(resolve(packDirectory), 'checksums.sha256')));
     return console.log(JSON.stringify({ valid: true, key: result.manifest.key, version: result.manifest.version, fingerprint: result.fingerprint }, null, 2));
   }
-  if (command === 'pack') return packagePack(target, option(args, '--out'));
+  if (command === 'pack') return packagePack(requireTarget(command, target), option(args, '--out'));
   if (command === 'verify') {
-    const extracted = await extractVerified(target);
+    const extracted = await extractVerified(requireTarget(command, target));
     try { return console.log(JSON.stringify({ valid: true, key: extracted.result.manifest.key, version: extracted.result.manifest.version, fingerprint: extracted.result.fingerprint }, null, 2)); }
     finally { await rm(extracted.temporary, { recursive: true, force: true }); }
   }
   if (command === 'install') {
+    const archive = requireTarget(command, target);
     const rootOption = option(args, '--root');
     if (!rootOption) fail('--root is required');
     const installRoot = resolve(rootOption);
     await mkdir(installRoot, { recursive: true });
     if ((await lstat(installRoot)).isSymbolicLink()) fail('Domain Pack install root must not be a symbolic link');
-    const extracted = await extractVerified(target, installRoot);
+    const extracted = await extractVerified(archive, installRoot);
     let lock;
     let lockPath;
     try {
@@ -606,6 +609,13 @@ async function main() {
     return console.log(JSON.stringify(packs, null, 2));
   }
   fail(`Unknown command: ${command}\n\n${usage()}`);
+}
+
+function requireTarget(command, target) {
+  if (!target || target.startsWith('-')) {
+    fail(`Missing <target> for '${command}'.\n\nRun 'rwpack --help' for command syntax.`);
+  }
+  return target;
 }
 
 main().catch((error) => {

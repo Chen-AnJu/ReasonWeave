@@ -34,14 +34,39 @@ RUN cd "/tmp/ollama-${OLLAMA_VERSION}" \
       -ldflags "-s -w -X github.com/ollama/ollama/version.Version=${OLLAMA_VERSION}-reasonweave.1" \
       -o /out/ollama .
 
-FROM ollama/ollama:0.33.1
+FROM ollama/ollama:0.33.1 AS upstream-runtime
+
+# The upstream image includes several GiB of CUDA and Vulkan runners. The
+# public preview is CPU-only, so copy only the root CPU runtime libraries into
+# the final image instead of inheriting accelerator layers that cannot be used.
+RUN mkdir -p /out/ollama \
+    && find /usr/lib/ollama -maxdepth 1 \( -type f -o -type l \) \
+      -exec cp -a '{}' /out/ollama/ \;
+
+FROM ubuntu:24.04
+
+ARG RW_IMAGE_REVISION=unknown
+ARG RW_IMAGE_VERSION=0.4.1-preview
+LABEL org.opencontainers.image.title="ReasonWeave Ollama" \
+      org.opencontainers.image.description="Local embedding runtime used by ReasonWeave" \
+      org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \
+      org.opencontainers.image.revision="${RW_IMAGE_REVISION}" \
+      org.opencontainers.image.version="${RW_IMAGE_VERSION}" \
+      org.opencontainers.image.licenses="Apache-2.0"
 
 COPY infra/ollama/ensure-model.sh /usr/local/bin/reasonweave-ensure-model
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 10001 ollama \
+    && useradd --uid 10001 --gid 10001 --home-dir /home/ollama --no-create-home ollama \
     && install -d -o 10001 -g 10001 /home/ollama/.ollama \
     && chmod 0555 /usr/local/bin/reasonweave-ensure-model
 COPY --from=build /out/ollama /usr/bin/ollama
-ENV HOME=/home/ollama
+COPY --from=upstream-runtime /out/ollama/ /usr/lib/ollama/
+ENV HOME=/home/ollama \
+    LD_LIBRARY_PATH=/usr/lib/ollama
 USER 10001:10001
+ENTRYPOINT ["/usr/bin/ollama"]
+CMD ["serve"]

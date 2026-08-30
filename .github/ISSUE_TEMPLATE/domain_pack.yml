@@ -1,0 +1,44 @@
+name: Domain Pack proposal
+description: Propose an auditable, data-only diagnostic domain
+title: "[Domain Pack]: "
+labels: [domain-pack]
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: Domain and investigation object
+      placeholder: e.g. industrial pump fault / one pump asset
+    validations:
+      required: true
+  - type: textarea
+    id: hypotheses
+    attributes:
+      label: Bounded hypotheses and observable predicates
+      description: List a small, mutually useful cause set and the facts that support or contradict each cause.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Professional sources and licenses
+      description: Provide upstream URLs, versions, licenses, and whether redistribution/derivation is allowed.
+    validations:
+      required: true
+  - type: textarea
+    id: collector
+    attributes:
+      label: Evidence collection and privacy boundary
+      description: Explain how a separate collector can produce Observation Bundle 1.0 without running third-party code in the engine.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Required properties
+      options:
+        - label: The pack can be expressed as data, Schema, deterministic rules, and attributed knowledge.
+          required: true
+        - label: The proposal does not require automatic remediation or executable plug-ins.
+          required: true
+        - label: Knowledge citations will not be used as scoring evidence.
+          required: true

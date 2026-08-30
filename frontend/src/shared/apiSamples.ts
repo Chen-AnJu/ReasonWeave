@@ -3,33 +3,35 @@ export type CodeLanguage = (typeof codeLanguages)[number];
 
 export function buildCodeSample(
   language: CodeLanguage,
+  origin: string,
   url: string,
   method: string,
   headers: Record<string, string>,
   bodyText?: string,
 ) {
+  const absoluteUrl = new URL(url, origin).toString();
   const body = bodyText ? JSON.parse(bodyText) as unknown : undefined;
   const serializedBody = body === undefined ? undefined : JSON.stringify(body);
   const headerLines = Object.entries(headers);
   if (language === 'cURL') {
     return [
-      `curl --request ${method} ${quotePosix(url)}`,
+      `curl --request ${method} ${quotePosix(absoluteUrl)}`,
       ...headerLines.map(([key, value]) => `  --header ${quotePosix(`${key}: ${value}`)}`),
       ...(serializedBody ? [`  --data ${quotePosix(serializedBody)}`] : []),
     ].join(' \\\n');
   }
   if (language === 'JavaScript') {
     const payload = body === undefined ? '' : `\n  body: JSON.stringify(${JSON.stringify(body, null, 2)}),`;
-    return `const response = await fetch(${JSON.stringify(url)}, {\n  method: ${JSON.stringify(method)},\n  headers: ${JSON.stringify(headers, null, 2)},${payload}\n});\nconst payload = await response.json();`;
+    return `const response = await fetch(${JSON.stringify(absoluteUrl)}, {\n  method: ${JSON.stringify(method)},\n  headers: ${JSON.stringify(headers, null, 2)},${payload}\n});\nconst payload = await response.json();`;
   }
   if (language === 'Python') {
     const payload = body === undefined ? '' : `\n    json=${pythonLiteral(body, 1)},`;
-    return `import requests\n\nresponse = requests.${method.toLowerCase()}(\n    ${pythonLiteral(`http://127.0.0.1:18080${url}`)},\n    headers=${pythonLiteral(headers, 1)},${payload}\n)\nprint(response.status_code, response.json())`;
+    return `import requests\n\nresponse = requests.${method.toLowerCase()}(\n    ${pythonLiteral(absoluteUrl)},\n    headers=${pythonLiteral(headers, 1)},${payload}\n)\nprint(response.status_code, response.json())`;
   }
   const payload = serializedBody
     ? `HttpRequest.BodyPublishers.ofString(${javaString(serializedBody)})`
     : 'HttpRequest.BodyPublishers.noBody()';
-  return `var request = HttpRequest.newBuilder()\n    .uri(URI.create(${javaString(`http://127.0.0.1:18080${url}`)}))${headerLines.map(([key, value]) => `\n    .header(${javaString(key)}, ${javaString(value)})`).join('')}\n    .method(${javaString(method)}, ${payload})\n    .build();\nvar response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());`;
+  return `var request = HttpRequest.newBuilder()\n    .uri(URI.create(${javaString(absoluteUrl)}))${headerLines.map(([key, value]) => `\n    .header(${javaString(key)}, ${javaString(value)})`).join('')}\n    .method(${javaString(method)}, ${payload})\n    .build();\nvar response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());`;
 }
 
 function quotePosix(value: string) {
