@@ -2,7 +2,7 @@ name: reasonweave
 
 services:
   postgres:
-    image: ${RW_POSTGRES_IMAGE:-ghcr.io/chen-anju/reasonweave-postgres:0.4.1-preview}
+    image: ${RW_POSTGRES_IMAGE:-ghcr.io/chen-anju/reasonweave-postgres:0.4.1-preview-39e70c3@sha256:a46758593bb59c31d9dd48f2abdcd8cb9d0815cda76a31c36c71a7c764cf5999}
     restart: unless-stopped
     environment:
       POSTGRES_DB: reasonweave
@@ -20,7 +20,7 @@ services:
     networks: [reasonweave]
 
   ollama:
-    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview}
+    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview-39e70c3@sha256:1d3af2112eadfcf22c82ca2eeba06c88872ea460b0742b3efd5056ac6cc0a3a2}
     restart: unless-stopped
     environment:
       OLLAMA_HOST: 0.0.0.0:11434
@@ -37,7 +37,7 @@ services:
     networks: [reasonweave]
 
   ollama-model:
-    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview}
+    image: ${RW_OLLAMA_IMAGE:-ghcr.io/chen-anju/reasonweave-ollama:0.4.1-preview-39e70c3@sha256:1d3af2112eadfcf22c82ca2eeba06c88872ea460b0742b3efd5056ac6cc0a3a2}
     restart: "no"
     environment:
       OLLAMA_HOST: http://ollama:11434
@@ -49,7 +49,7 @@ services:
     networks: [reasonweave]
 
   backend:
-    image: ${RW_BACKEND_IMAGE:-ghcr.io/chen-anju/reasonweave-backend:0.4.1-preview}
+    image: ${RW_BACKEND_IMAGE:-ghcr.io/chen-anju/reasonweave-backend:0.4.1-preview-39e70c3@sha256:a33b8298c1ec8f1dede754e56a306b28f556bc202729aa7510097918de10abba}
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reasonweave
@@ -87,7 +87,7 @@ services:
     networks: [reasonweave]
 
   frontend:
-    image: ${RW_FRONTEND_IMAGE:-ghcr.io/chen-anju/reasonweave-frontend:0.4.1-preview}
+    image: ${RW_FRONTEND_IMAGE:-ghcr.io/chen-anju/reasonweave-frontend:0.4.1-preview-39e70c3@sha256:ebc2a8663756caa13396ed8c667d2b758f3b215f8e7342d7837c03ff3d0d7854}
     restart: unless-stopped
     ports:
       - "127.0.0.1:${RW_HTTP_PORT:-8080}:8080"

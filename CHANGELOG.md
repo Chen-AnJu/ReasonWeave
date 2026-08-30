@@ -27,6 +27,8 @@ implemented, but no Git tag or installable release has been created.
   domain-neutral dynamic console driven by Domain Pack event definitions.
 - A standard loopback-only Compose entry point for the frontend, backend,
   PostgreSQL/pgvector, Ollama, and the required embedding model.
+- Prebuilt Linux/amd64 preview images pinned by immutable GHCR digests, with a
+  separate Compose override for auditable source builds.
 - A neutral `equipment-fault-test` pack that verifies the core without relying
   on Kubernetes semantics.
 - A product-first public README with console screenshots, an embedded demo,
