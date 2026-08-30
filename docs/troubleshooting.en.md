@@ -12,6 +12,11 @@ docker compose logs -f ollama-model
 
 The named volume survives `docker compose down` and normal restarts. The model downloads again only after that volume is explicitly removed.
 
+- A first download logs `Ollama model cache miss; pulling once` and the 639 MB progress.
+- A cached start logs `Ollama model cache hit` and does not pull the model again.
+
+The reference acceptance link downloaded into an empty cache in 164.74 seconds at roughly 3.6–4.5 MB/s and occupied about 609.6 MiB on disk. Your result is dominated by network performance to the Ollama model registry. Do not delete the model volume merely because progress pauses briefly.
+
 ## Containers run out of memory
 
 The complete stack includes PostgreSQL, Ollama, the backend, and the frontend. Keep at least 4 GiB available; 6 GiB or more is recommended for real vector retrieval.

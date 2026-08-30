@@ -12,6 +12,11 @@ docker compose logs -f ollama-model
 
 后续 `docker compose down` 和重启会复用该卷。只有显式删除卷才会重新下载模型。
 
+- 首次下载日志包含 `Ollama model cache miss; pulling once` 和 639 MB 进度。
+- 缓存命中日志包含 `Ollama model cache hit`，不会再次拉取模型。
+
+参考验收链路在约 3.6–4.5 MB/s 时完成空缓存下载用了 164.74 秒，落盘约 609.6 MiB；你的耗时主要取决于到 Ollama 模型仓库的网络。不要仅因进度输出短暂停顿就删除模型卷。
+
 ## 内存不足或容器被终止
 
 完整栈包含 PostgreSQL、Ollama、后端和前端。建议至少 4 GiB 可用内存，运行真实向量检索时建议 6 GiB 以上。先查看：

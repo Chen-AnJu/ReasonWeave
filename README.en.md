@@ -111,6 +111,8 @@ docker compose logs -f ollama-model
 
 Normal restarts, upgrades, and `docker compose down` reuse that model volume. See [Troubleshooting](docs/troubleshooting.en.md) for resource, port, index, and volume issues.
 
+Measured logical image sizes for this `linux/amd64` preview candidate are approximately 134 MiB for the backend, 28 MiB for the frontend, 113 MiB for PostgreSQL/pgvector, and 60 MiB for the CPU-only Ollama runtime; the model cache occupies 609.6 MiB. In an isolated acceptance run, downloading the 639 MB model into an empty cache took 164.74 seconds, a restart with cached model and index reached full health in 56.70 seconds, and the healthy Kubernetes and cold-holding end-to-end API examples took 3.99 and 3.58 seconds. These are reference measurements, not a performance guarantee; initial total time also depends on registry, model network, and disk performance.
+
 > To build from source, run `docker compose -f compose.yml -f compose.build.yml up -d --build`. Only this developer path needs build tooling and additional time.
 
 ## Exercise the full API flow with one command

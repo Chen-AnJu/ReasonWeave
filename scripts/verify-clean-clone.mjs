@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,6 +38,12 @@ try {
   for (const task of ['verify:open-source', 'cli:test', 'api:types:check']) {
     run(executable('pnpm'), [task], { cwd: checkout, stdio: 'inherit' });
   }
+  const sourceChecksum = resolve(checkout, '.artifacts', 'source', 'reasonweave-0.4.1-source.tar.gz.sha256');
+  run(executable('pnpm'), ['package:source'], { cwd: checkout, stdio: 'inherit' });
+  const firstSourceHash = readFileSync(sourceChecksum, 'utf8');
+  run(executable('pnpm'), ['package:source'], { cwd: checkout, stdio: 'inherit' });
+  const secondSourceHash = readFileSync(sourceChecksum, 'utf8');
+  if (firstSourceHash !== secondSourceHash) throw new Error('Source package is not deterministic for the same Git revision.');
   console.log(JSON.stringify({
     status: 'PASSED',
     repository,
@@ -56,5 +62,6 @@ Usage:
   node scripts/verify-clean-clone.mjs [--repository URL_OR_PATH] [--autocrlf true|false|input] [--keep]
 
 The command validates both production Domain Packs, open-source boundaries,
-CLI tests, and OpenAPI type drift from a fresh checkout. It never starts Docker.`;
+CLI tests, OpenAPI type drift, and deterministic source packaging from a fresh
+checkout. It never starts Docker.`;
 }

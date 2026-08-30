@@ -111,6 +111,8 @@ docker compose logs -f ollama-model
 
 以后执行 `docker compose down`、重启或升级都会复用该模型卷。详细资源、端口、索引和卷问题见[故障排查](docs/troubleshooting.md)。
 
+本次 `linux/amd64` 预览候选的镜像逻辑大小约为：后端 134 MiB、前端 28 MiB、PostgreSQL/pgvector 113 MiB、Ollama CPU 60 MiB；模型缓存实占 609.6 MiB。隔离验收中，空缓存下载 639 MB 模型耗时 164.74 秒，缓存与索引均命中时整栈恢复健康耗时 56.70 秒；服务健康后，Kubernetes 与冷藏完整 API 示例分别耗时 3.99 秒和 3.58 秒。以上是参考测量，不是性能承诺；首次总耗时还取决于镜像仓库、模型下载网络和主机磁盘。
+
 > 想从源码构建？使用 `docker compose -f compose.yml -f compose.build.yml up -d --build`。这条开发者路径才需要构建工具与更长时间。
 
 ## 一条命令体验完整 API 闭环
