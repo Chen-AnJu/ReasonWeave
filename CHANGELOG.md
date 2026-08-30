@@ -5,8 +5,8 @@ for application and CLI artifacts.
 
 ## [0.4.1] - Unreleased
 
-This version is a public-source preview candidate. Packaging and validation are
-implemented, but no Git tag or installable release has been created.
+This entry tracks the public `0.4.1` code line. Packaging and validation are
+implemented; a Git tag and standalone release archive have not yet been issued.
 
 ### Added
 
@@ -27,7 +27,7 @@ implemented, but no Git tag or installable release has been created.
   domain-neutral dynamic console driven by Domain Pack event definitions.
 - A standard loopback-only Compose entry point for the frontend, backend,
   PostgreSQL/pgvector, Ollama, and the required embedding model.
-- Prebuilt Linux/amd64 preview images pinned by immutable GHCR digests, with a
+- Prebuilt Linux/amd64 images pinned by immutable GHCR digests, with a
   separate Compose override for auditable source builds.
 - A neutral `equipment-fault-test` pack that verifies the core without relying
   on Kubernetes semantics.

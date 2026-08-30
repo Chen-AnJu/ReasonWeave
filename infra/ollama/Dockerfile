@@ -37,7 +37,7 @@ RUN cd "/tmp/ollama-${OLLAMA_VERSION}" \
 FROM ollama/ollama:0.33.1 AS upstream-runtime
 
 # The upstream image includes several GiB of CUDA and Vulkan runners. The
-# public preview is CPU-only, so copy only the root CPU runtime libraries into
+# public image is CPU-only, so copy only the root CPU runtime libraries into
 # the final image instead of inheriting accelerator layers that cannot be used.
 RUN mkdir -p /out/ollama \
     && find /usr/lib/ollama -maxdepth 1 \( -type f -o -type l \) \
@@ -46,7 +46,7 @@ RUN mkdir -p /out/ollama \
 FROM ubuntu:24.04
 
 ARG RW_IMAGE_REVISION=unknown
-ARG RW_IMAGE_VERSION=0.4.1-preview
+ARG RW_IMAGE_VERSION=0.4.1
 LABEL org.opencontainers.image.title="ReasonWeave Ollama" \
       org.opencontainers.image.description="Local embedding runtime used by ReasonWeave" \
       org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \

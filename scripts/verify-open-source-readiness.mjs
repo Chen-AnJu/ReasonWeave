@@ -167,9 +167,9 @@ if (existsSync(pathOf('compose.yml'))) {
   }
   if (/^\s+build:/m.test(compose)) issue('compose:default-must-not-build');
   for (const image of ['reasonweave-backend', 'reasonweave-frontend', 'reasonweave-postgres', 'reasonweave-ollama']) {
-    if (!compose.includes(`ghcr.io/chen-anju/${image}:`)) issue(`compose:preview-image-missing:${image}`);
-    const reference = new RegExp(`ghcr\\.io/chen-anju/${image}:[^}\\s]+@sha256:[a-f0-9]{64}`);
-    if (!reference.test(compose)) issue(`compose:preview-image-not-digest-pinned:${image}`);
+    if (!compose.includes(`ghcr.io/chen-anju/${image}@sha256:`)) issue(`compose:image-missing:${image}`);
+    const reference = new RegExp(`ghcr\\.io/chen-anju/${image}@sha256:[a-f0-9]{64}`);
+    if (!reference.test(compose)) issue(`compose:image-not-digest-pinned:${image}`);
   }
   if (!compose.includes('reasonweave-ensure-model') || compose.includes('pgvector/pgvector:pg16')) {
     issue('compose:hardened-runtime-images-required');

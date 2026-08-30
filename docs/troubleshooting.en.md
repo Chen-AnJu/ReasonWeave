@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Run commands from the repository root. The preview must stay loopback-bound; never expose the unauthenticated API to the public Internet as a troubleshooting shortcut.
+Run commands from the repository root. The default deployment must stay loopback-bound; never expose the unauthenticated API to the public Internet as a troubleshooting shortcut.
 
 ## Model download is slow
 

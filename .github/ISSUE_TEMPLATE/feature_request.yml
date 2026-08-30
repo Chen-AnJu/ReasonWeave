@@ -27,7 +27,7 @@ body:
   - type: checkboxes
     id: exclusions
     attributes:
-      label: Preview boundary
+      label: Current product boundary
       options:
-        - label: I understand the current preview has no authentication, multi-tenancy, automatic remediation, or Chat LLM.
+        - label: I understand the current version has no authentication, multi-tenancy, automatic remediation, or Chat LLM.
           required: true

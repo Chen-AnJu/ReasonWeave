@@ -10,11 +10,11 @@
     · <a href="README.en.md">English</a>
     · <a href="docs/media/reasonweave-demo.mp4">演示视频</a>
   </p>
-  <p><code>0.4.1 preview</code> · <code>Apache-2.0</code> · <code>本地优先</code> · <code>无内置遥测</code></p>
+  <p><code>0.4.1</code> · <code>Apache-2.0</code> · <code>本地优先</code> · <code>无内置遥测</code></p>
 </div>
 
 > [!CAUTION]
-> 当前预览版是无认证的单实例服务，只应绑定回环地址或放在你自行加固的可信反向代理之后。它不替代人工判断，也不提供自动维修、食品处置或监管结论。
+> 当前版本是无认证的单实例服务，只应绑定回环地址或放在你自行加固的可信反向代理之后。它不替代人工判断，也不提供自动维修、食品处置或监管结论。
 
 <p align="center">
   <img src="docs/media/reasonweave-demo.gif" alt="从创建事件、导入并确认证据，到调查、下一步取证、因果图和审计的完整流程" width="800">
@@ -111,7 +111,7 @@ docker compose logs -f ollama-model
 
 以后执行 `docker compose down`、重启或升级都会复用该模型卷。详细资源、端口、索引和卷问题见[故障排查](docs/troubleshooting.md)。
 
-本次 `linux/amd64` 预览候选的镜像逻辑大小约为：后端 134 MiB、前端 28 MiB、PostgreSQL/pgvector 113 MiB、Ollama CPU 60 MiB；模型缓存实占 609.6 MiB。隔离验收中，空缓存下载 639 MB 模型耗时 164.74 秒，缓存与索引均命中时整栈恢复健康耗时 56.70 秒；服务健康后，Kubernetes 与冷藏完整 API 示例分别耗时 3.99 秒和 3.58 秒。以上是参考测量，不是性能承诺；首次总耗时还取决于镜像仓库、模型下载网络和主机磁盘。
+本次 `linux/amd64` 发布镜像的逻辑大小约为：后端 134 MiB、前端 28 MiB、PostgreSQL/pgvector 113 MiB、Ollama CPU 60 MiB；模型缓存实占 609.6 MiB。隔离验收中，空缓存下载 639 MB 模型耗时 164.74 秒，缓存与索引均命中时整栈恢复健康耗时 56.70 秒；服务健康后，Kubernetes 与冷藏完整 API 示例分别耗时 3.99 秒和 3.58 秒。以上是参考测量，不是性能承诺；首次总耗时还取决于镜像仓库、模型下载网络和主机磁盘。
 
 > 想从源码构建？使用 `docker compose -f compose.yml -f compose.build.yml up -d --build`。这条开发者路径才需要构建工具与更长时间。
 
@@ -233,7 +233,7 @@ compose.build.yml        源码构建覆盖层
 
 ## 当前状态
 
-`0.4.1` 已具备双领域、真实 Embedding、纯 API 和可视化控制台的完整调查闭环，当前定位为开源预览。登录、RBAC、多租户、异步调查、Webhook、自动修复、远程领域包 Registry、热加载、计费和 Marketplace 明确后置。
+`0.4.1` 已具备双领域、真实 Embedding、纯 API 和可视化控制台的完整调查闭环。登录、RBAC、多租户、异步调查、Webhook、自动修复、远程领域包 Registry、热加载、计费和 Marketplace 明确后置。
 
 ## 许可证
 

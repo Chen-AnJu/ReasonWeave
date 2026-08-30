@@ -15,7 +15,7 @@ RUN apk add --no-cache build-base ca-certificates curl \
 FROM postgres:16-alpine3.24
 
 ARG RW_IMAGE_REVISION=unknown
-ARG RW_IMAGE_VERSION=0.4.1-preview
+ARG RW_IMAGE_VERSION=0.4.1
 LABEL org.opencontainers.image.title="ReasonWeave PostgreSQL" \
       org.opencontainers.image.description="PostgreSQL 16 with pgvector for ReasonWeave" \
       org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \

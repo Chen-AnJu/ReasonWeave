@@ -10,11 +10,11 @@
     · <a href="README.md">中文</a>
     · <a href="docs/media/reasonweave-demo.mp4">Demo video</a>
   </p>
-  <p><code>0.4.1 preview</code> · <code>Apache-2.0</code> · <code>local-first</code> · <code>no built-in telemetry</code></p>
+  <p><code>0.4.1</code> · <code>Apache-2.0</code> · <code>local-first</code> · <code>no built-in telemetry</code></p>
 </div>
 
 > [!CAUTION]
-> This preview is an unauthenticated, single-instance service. Keep it loopback-bound or place it behind a trusted reverse proxy that you harden. It does not replace human judgment and does not issue repair, food-disposition, or regulatory decisions.
+> This version is an unauthenticated, single-instance service. Keep it loopback-bound or place it behind a trusted reverse proxy that you harden. It does not replace human judgment and does not issue repair, food-disposition, or regulatory decisions.
 
 <p align="center">
   <img src="docs/media/reasonweave-demo.gif" alt="The complete flow from event creation and evidence confirmation to investigation, next evidence, graph, and audit" width="800">
@@ -103,7 +103,7 @@ Invoke-RestMethod http://127.0.0.1:8080/api/v1/runtime
 
 Open <http://127.0.0.1:8080>. OpenAPI is available at <http://127.0.0.1:8080/api/v1/docs>.
 
-The default Compose file pulls fixed preview images and exposes only the frontend on `127.0.0.1:8080`. Backend, PostgreSQL, and Ollama have no host ports. The first start downloads the approximately 639 MB `qwen3-embedding:0.6b` model into `reasonweave-ollama-model-cache`:
+The default Compose file pulls fixed published images and exposes only the frontend on `127.0.0.1:8080`. Backend, PostgreSQL, and Ollama have no host ports. The first start downloads the approximately 639 MB `qwen3-embedding:0.6b` model into `reasonweave-ollama-model-cache`:
 
 ```bash
 docker compose logs -f ollama-model
@@ -111,7 +111,7 @@ docker compose logs -f ollama-model
 
 Normal restarts, upgrades, and `docker compose down` reuse that model volume. See [Troubleshooting](docs/troubleshooting.en.md) for resource, port, index, and volume issues.
 
-Measured logical image sizes for this `linux/amd64` preview candidate are approximately 134 MiB for the backend, 28 MiB for the frontend, 113 MiB for PostgreSQL/pgvector, and 60 MiB for the CPU-only Ollama runtime; the model cache occupies 609.6 MiB. In an isolated acceptance run, downloading the 639 MB model into an empty cache took 164.74 seconds, a restart with cached model and index reached full health in 56.70 seconds, and the healthy Kubernetes and cold-holding end-to-end API examples took 3.99 and 3.58 seconds. These are reference measurements, not a performance guarantee; initial total time also depends on registry, model network, and disk performance.
+Measured logical sizes for the published `linux/amd64` image set are approximately 134 MiB for the backend, 28 MiB for the frontend, 113 MiB for PostgreSQL/pgvector, and 60 MiB for the CPU-only Ollama runtime; the model cache occupies 609.6 MiB. In an isolated acceptance run, downloading the 639 MB model into an empty cache took 164.74 seconds, a restart with cached model and index reached full health in 56.70 seconds, and the healthy Kubernetes and cold-holding end-to-end API examples took 3.99 and 3.58 seconds. These are reference measurements, not a performance guarantee; initial total time also depends on registry, model network, and disk performance.
 
 > To build from source, run `docker compose -f compose.yml -f compose.build.yml up -d --build`. Only this developer path needs build tooling and additional time.
 
@@ -184,7 +184,7 @@ Both packs use the same Event, Bundle, retrieval, investigation, graph, and audi
 - Every Run records the pack fingerprint, evidence snapshot, knowledge index, retrieval results, and citations.
 - The Kubernetes collector does not read Secret values, environment-variable values, service-account tokens, or complete logs.
 - The cold-holding collector does not access the network or embed complete raw telemetry in its Bundle.
-- The preview has no login, API key, RBAC, multi-tenancy, rate limit, or public-Internet security boundary.
+- The current version has no login, API key, RBAC, multi-tenancy, rate limit, or public-Internet security boundary.
 
 Read the [public architecture](docs/architecture.md) for the full component and trust boundary. Report vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
 
@@ -233,7 +233,7 @@ compose.build.yml        Source-build override
 
 ## Status
 
-`0.4.1` has a complete two-domain investigation loop with real embeddings, a pure API, and a generic console. It remains an open-source preview. Authentication, RBAC, multi-tenancy, asynchronous investigations, webhooks, automatic remediation, a remote Domain Pack Registry, hot reload, billing, and a marketplace are explicitly deferred.
+`0.4.1` has a complete two-domain investigation loop with real embeddings, a pure API, and a generic console. Authentication, RBAC, multi-tenancy, asynchronous investigations, webhooks, automatic remediation, a remote Domain Pack Registry, hot reload, billing, and a marketplace are explicitly deferred.
 
 ## License
 

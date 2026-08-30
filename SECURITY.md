@@ -2,9 +2,9 @@
 
 ## Supported versions
 
-The `0.4.1` source preview is public, but no tagged Git release has been issued.
-After the first tagged release, security fixes will target the latest `0.4.x`
-release; older preview snapshots are not supported.
+The public `main` branch currently carries `0.4.1`, but no tagged Git release
+has been issued. Until the first tag, security fixes target the latest public
+commit on the `0.4.x` code line; older commits are not supported.
 
 ## Reporting a vulnerability
 
@@ -22,9 +22,9 @@ Do not include live secrets, production kubeconfig files, or production data.
 Maintainers should acknowledge a complete report privately before discussing a
 public advisory or release date.
 
-## Preview security boundary
+## Deployment security boundary
 
-- ReasonWeave 0.4.1 is a single-instance preview and has no authentication or
+- ReasonWeave 0.4.1 is a single-instance service and has no authentication or
   RBAC.
   Bind the backend to loopback or another trusted private interface; do not
   expose it directly to the public Internet.

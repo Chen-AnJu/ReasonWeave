@@ -12,7 +12,7 @@ RUN pnpm --dir frontend build
 
 FROM nginx:1.31.4-alpine3.24 AS runtime
 ARG RW_IMAGE_REVISION=unknown
-ARG RW_IMAGE_VERSION=0.4.1-preview
+ARG RW_IMAGE_VERSION=0.4.1
 LABEL org.opencontainers.image.title="ReasonWeave frontend" \
       org.opencontainers.image.description="Web console and same-origin API gateway for ReasonWeave" \
       org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \

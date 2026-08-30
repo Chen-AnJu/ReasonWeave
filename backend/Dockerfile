@@ -7,7 +7,7 @@ RUN mvn -B -DskipTests package
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
 ARG RW_IMAGE_REVISION=unknown
-ARG RW_IMAGE_VERSION=0.4.1-preview
+ARG RW_IMAGE_VERSION=0.4.1
 LABEL org.opencontainers.image.title="ReasonWeave backend" \
       org.opencontainers.image.description="API-first evidence reasoning engine" \
       org.opencontainers.image.source="https://github.com/Chen-AnJu/ReasonWeave" \

@@ -1,6 +1,6 @@
 # Support
 
-ReasonWeave is an open-source preview maintained through the public repository.
+ReasonWeave is an open-source project maintained through the public repository.
 
 - Use [GitHub Issues](https://github.com/Chen-AnJu/ReasonWeave/issues) for reproducible bugs and focused feature requests.
 - Use the Domain Pack proposal template for new industries, predicates, rules, or attributed knowledge.

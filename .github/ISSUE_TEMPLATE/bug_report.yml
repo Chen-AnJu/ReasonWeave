@@ -10,7 +10,7 @@ body:
     id: version
     attributes:
       label: Version or image digest
-      placeholder: 0.4.1-preview-... or sha256:...
+      placeholder: 0.4.1 or sha256:...
     validations:
       required: true
   - type: dropdown
